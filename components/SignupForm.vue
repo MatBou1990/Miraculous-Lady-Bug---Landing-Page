@@ -107,6 +107,13 @@ async function submit() {
       <button class="btn" type="submit" :disabled="loading">
         {{ loading ? 'Un instant…' : 'Je m’inscris' }}
       </button>
+
+      <p class="legal">
+        En vous inscrivant, vous acceptez que vos données soient utilisées pour vous envoyer
+        les communications choisies. Vous pouvez vous désinscrire à tout moment. Pour en savoir
+        plus, consultez notre
+        <NuxtLink to="/confidentialite">politique de confidentialité</NuxtLink>.
+      </p>
     </form>
 
     <!-- DONE -->
@@ -235,6 +242,20 @@ async function submit() {
   color: #ff6b81;
   font-size: 0.9rem;
   margin-bottom: 1rem;
+}
+
+.legal {
+  margin-top: 1rem;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: rgba(203, 192, 174, 0.55);
+}
+.legal a {
+  color: var(--cream-dim);
+  text-decoration: underline;
+}
+.legal a:hover {
+  color: var(--red);
 }
 
 .done {

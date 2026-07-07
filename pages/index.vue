@@ -50,6 +50,11 @@ function scrollToSignup() {
 
     <footer class="footer">
       <div class="container footer__inner">
+        <nav class="footer__links">
+          <NuxtLink to="/mentions-legales">Mentions légales</NuxtLink>
+          <span aria-hidden="true">·</span>
+          <NuxtLink to="/confidentialite">Politique de confidentialité</NuxtLink>
+        </nav>
         <p>© {{ new Date().getFullYear() }} Miraculous — Le Spectacle Live. Tous droits réservés.</p>
       </div>
     </footer>
@@ -214,6 +219,20 @@ function scrollToSignup() {
   text-align: center;
   color: rgba(203, 192, 174, 0.5);
   font-size: 0.85rem;
+}
+.footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+}
+.footer__links a {
+  color: var(--cream-dim);
+  transition: color 0.15s ease;
+}
+.footer__links a:hover {
+  color: var(--red);
 }
 
 /* ---------------------------- RESPONSIVE ---------------------------- */
