@@ -1,101 +1,131 @@
 /**
  * POST /api/subscribe
  *
- * Upserts a contact in Brevo (Sendinblue). Called twice by the front-end:
- *   - Step 1: prénom, email (required), code postal (optional), email consent.
- *   - Step 2 (optional): phone + SMS consent for the same email.
+ * 1. Writes the subscriber to Postgres FIRST (source of truth) — with consent
+ *    flags/dates, UTM attribution, IP and timestamp as proof of consent.
+ * 2. Then best-effort syncs to the CRM, routed by channel:
+ *      - email  → the email platform (Brevo by default)
+ *      - SMS    → the SMS platform for the contact's country (only if consented)
+ *    On CRM failure the DB record stays with crm_synced = false for later
+ *    resynchronisation — the request still succeeds.
  *
- * Consent flags and the postal code are stored as contact attributes.
- * `updateEnabled: true` makes the call an upsert, so step 2 updates the
- * contact created in step 1.
+ * Required: valid email, country, age confirmation (16+).
  */
+import { getEmailProvider, getSmsProvider, type CrmContact } from '../utils/crm'
+import { upsertSubscriber, markCrmSynced, type SubscriberInput } from '../utils/subscribers'
+
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 interface SubscribeBody {
   email?: string
   firstName?: string
+  country?: string
   postalCode?: string
   phone?: string
   emailConsent?: boolean
   smsConsent?: boolean
+  ageConfirmed?: boolean
+  utmSource?: string
+  utmMedium?: string
+  utmCampaign?: string
 }
 
 export default defineEventHandler(async (event) => {
-  const config = useRuntimeConfig()
-  const apiKey = config.brevoApiKey
-
-  if (!apiKey) {
-    throw createError({
-      statusCode: 500,
-      statusMessage: 'BREVO_API_KEY manquante côté serveur.',
-    })
-  }
-
   const body = await readBody<SubscribeBody>(event)
 
   const email = (body?.email || '').trim().toLowerCase()
   if (!email || !EMAIL_RE.test(email)) {
+    throw createError({ statusCode: 400, statusMessage: 'Une adresse e-mail valide est requise.' })
+  }
+
+  const country = (body?.country || '').trim().toUpperCase()
+  if (!country) {
+    throw createError({ statusCode: 400, statusMessage: 'Le pays est requis.' })
+  }
+
+  if (body?.ageConfirmed !== true) {
     throw createError({
       statusCode: 400,
-      statusMessage: 'Une adresse e-mail valide est requise.',
+      statusMessage: 'Vous devez confirmer avoir 16 ans ou plus.',
     })
   }
 
-  // Build Brevo attributes. Only send what we actually have.
-  const attributes: Record<string, unknown> = {}
-
-  if (body.firstName?.trim()) attributes.PRENOM = body.firstName.trim()
-  if (body.postalCode?.trim()) attributes.CODE_POSTAL = body.postalCode.trim()
-
-  // Consent flags — always record the explicit choice.
-  attributes.OPT_IN_EMAIL = Boolean(body.emailConsent)
-  attributes.OPT_IN_SMS = Boolean(body.smsConsent)
-
-  // Phone is stored in Brevo's built-in SMS attribute (needs E.164 format).
+  const now = new Date().toISOString()
+  const emailConsent = Boolean(body.emailConsent)
+  const smsConsent = Boolean(body.smsConsent)
   const phone = normalizePhone(body.phone)
-  if (phone) attributes.SMS = phone
+  const ip = getRequestIP(event, { xForwardedFor: true }) || undefined
 
-  const payload: Record<string, unknown> = {
+  // ---- 1. Persist to Postgres (source of truth) ----
+  const subscriber: SubscriberInput = {
     email,
-    attributes,
-    updateEnabled: true,
+    firstName: body.firstName?.trim() || undefined,
+    country,
+    postalCode: body.postalCode?.trim() || undefined,
+    phone,
+    emailConsent,
+    emailConsentAt: emailConsent ? now : undefined,
+    smsConsent,
+    smsConsentAt: smsConsent ? now : undefined,
+    ageConfirmed: true,
+    utmSource: body.utmSource?.trim() || undefined,
+    utmMedium: body.utmMedium?.trim() || undefined,
+    utmCampaign: body.utmCampaign?.trim() || undefined,
+    ip,
   }
-
-  const listId = Number(config.brevoListId)
-  if (listId) payload.listIds = [listId]
 
   try {
-    await $fetch('https://api.brevo.com/v3/contacts', {
-      method: 'POST',
-      headers: {
-        'api-key': apiKey,
-        'content-type': 'application/json',
-        accept: 'application/json',
-      },
-      body: payload,
-    })
-
-    return { ok: true }
+    await upsertSubscriber(subscriber)
   } catch (err: any) {
-    const data = err?.data
-    // Brevo returns this when the contact already exists AND updateEnabled
-    // was ignored for some reason — treat an existing contact as success.
-    if (data?.code === 'duplicate_parameter') {
-      return { ok: true, existing: true }
-    }
-
-    console.error('[subscribe] Brevo error:', data || err?.message || err)
+    console.error('[subscribe] DB write failed:', err?.message || err)
     throw createError({
-      statusCode: 502,
-      statusMessage:
-        data?.message || "L'inscription a échoué. Veuillez réessayer.",
+      statusCode: 500,
+      statusMessage: "Impossible d'enregistrer votre inscription. Veuillez réessayer.",
     })
   }
+
+  // ---- 2. Best-effort CRM sync (channel-routed) ----
+  const contact: CrmContact = {
+    email,
+    firstName: subscriber.firstName,
+    country,
+    postalCode: subscriber.postalCode,
+    phone,
+    emailConsent,
+    emailConsentDate: subscriber.emailConsentAt,
+    smsConsent,
+    smsConsentDate: subscriber.smsConsentAt,
+    utmSource: subscriber.utmSource,
+    utmMedium: subscriber.utmMedium,
+    utmCampaign: subscriber.utmCampaign,
+    signupDate: now,
+  }
+
+  try {
+    const emailProvider = getEmailProvider()
+    await emailProvider.upsertContact(contact)
+
+    // SMS goes to its own platform only when consented; skip the second call
+    // if it's the same platform as email (already covered above).
+    if (smsConsent && phone) {
+      const smsProvider = getSmsProvider(country)
+      if (smsProvider.name !== emailProvider.name) {
+        await smsProvider.upsertContact(contact)
+      }
+    }
+
+    await markCrmSynced(email)
+  } catch (err: any) {
+    // Kept in Postgres with crm_synced = false → resynced later. Not fatal.
+    console.error('[subscribe] CRM sync failed (kept for retry):', err?.message || err)
+  }
+
+  return { ok: true }
 })
 
 /**
- * Best-effort normalisation to E.164. Assumes a French number when no country
- * code is supplied (leading 0 → +33). Returns undefined for empty input.
+ * Light normalisation to E.164. The phone already carries an international
+ * dialing code from the front-end; this strips formatting characters.
  */
 function normalizePhone(raw?: string): string | undefined {
   if (!raw) return undefined
@@ -104,8 +134,7 @@ function normalizePhone(raw?: string): string | undefined {
 
   let digits = trimmed.replace(/[^\d+]/g, '')
   if (digits.startsWith('00')) digits = '+' + digits.slice(2)
-
-  if (digits.startsWith('+')) return digits
-  if (digits.startsWith('0')) return '+33' + digits.slice(1)
-  return '+' + digits
+  // A bare dialing code with no real number is not a phone.
+  if (digits.replace('+', '').length < 4) return undefined
+  return digits.startsWith('+') ? digits : '+' + digits
 }

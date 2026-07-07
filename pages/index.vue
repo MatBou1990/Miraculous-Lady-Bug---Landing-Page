@@ -59,6 +59,7 @@ function scrollToSignup() {
           <span aria-hidden="true">·</span>
           <NuxtLink to="/confidentialite">{{ t('footer.privacy') }}</NuxtLink>
         </nav>
+        <p class="footer__license">{{ t('footer.license') }}</p>
         <p>© {{ new Date().getFullYear() }} Miraculous — Le Spectacle Live. {{ t('footer.rights') }}</p>
       </div>
     </footer>
@@ -276,6 +277,13 @@ function scrollToSignup() {
 }
 .footer__links a:hover {
   color: var(--red);
+}
+.footer__license {
+  max-width: 60ch;
+  margin: 0 auto 0.6rem;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: rgba(203, 192, 174, 0.4);
 }
 
 /* ---------------------------- RESPONSIVE ---------------------------- */

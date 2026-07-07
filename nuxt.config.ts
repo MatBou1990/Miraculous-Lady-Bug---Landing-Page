@@ -3,6 +3,8 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-01-01',
   devtools: { enabled: true },
 
+  modules: ['@vercel/analytics/nuxt'],
+
   css: ['~/assets/css/main.css'],
 
   app: {
@@ -35,10 +37,17 @@ export default defineNuxtConfig({
     },
   },
 
-  // Server-side secrets. Set BREVO_API_KEY (and optionally BREVO_LIST_ID) in .env
+  // Server-side secrets & config. Set the relevant keys in .env (see .env.example).
   runtimeConfig: {
+    // CRM routing (per channel). Values: 'brevo' | 'klaviyo'.
+    crmProvider: process.env.CRM_PROVIDER || 'brevo', // global default
+    crmEmailProvider: process.env.CRM_EMAIL_PROVIDER || '', // email platform (defaults to crmProvider)
+    crmSmsProvider: process.env.CRM_SMS_PROVIDER || '', // SMS default (defaults to crmProvider)
+    crmSmsCountryRouting: process.env.CRM_SMS_COUNTRY_ROUTING || '', // JSON: {"US":"klaviyo"}
     brevoApiKey: process.env.BREVO_API_KEY || '',
     brevoListId: process.env.BREVO_LIST_ID || '',
+    klaviyoApiKey: process.env.KLAVIYO_API_KEY || '',
+    // DATABASE_URL is read directly from process.env in server/utils/db.ts
     public: {},
   },
 })

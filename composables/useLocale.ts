@@ -16,26 +16,34 @@ const messages: Record<Locale, Dict> = {
     'signup.introText':
       "Inscrivez-vous pour recevoir en avant-première les dates, l'ouverture de la billetterie et les secrets de fabrication du spectacle.",
 
-    'form.title': "Rejoignez l'aventure",
+    'form.title': 'Offrez à vos enfants un moment magique',
     'form.lead':
-      'Soyez les premiers informés de la billetterie, des dates et des coulisses du spectacle.',
+      "Soyez informé·e en priorité de l'ouverture de la billetterie et préparez la sortie en famille à ne pas manquer.",
     'form.firstName': 'Prénom',
-    'form.firstNamePlaceholder': 'Marinette',
+    'form.firstNamePlaceholder': 'Votre prénom',
     'form.email': 'E-mail',
     'form.emailPlaceholder': 'vous@exemple.com',
+    'form.country': 'Pays',
+    'form.countryPlaceholder': 'Sélectionnez votre pays',
     'form.postalCode': 'Code postal',
     'form.phone': 'Téléphone',
-    'form.phonePlaceholder': '06 12 34 56 78',
+    'form.phonePlaceholder': '6 12 34 56 78',
+    'form.dialCode': 'Indicatif',
     'form.optional': '(optionnel)',
     'form.emailConsent':
-      "J'accepte de recevoir les actualités et offres du spectacle par e-mail.",
+      "J'accepte de recevoir par e-mail les actualités et offres du spectacle pour préparer notre sortie en famille.",
     'form.smsConsent': "J'accepte de recevoir des informations sur le spectacle par SMS.",
+    'form.age': "Je confirme avoir 16 ans ou plus.",
+    'form.smsNote':
+      "En indiquant votre numéro, vous acceptez de recevoir des SMS relatifs au spectacle. Des frais peuvent s'appliquer. Répondez STOP pour vous désinscrire.",
     'form.submit': 'Je m’inscris',
     'form.submitting': 'Un instant…',
     'form.legalPre':
       'En vous inscrivant, vous acceptez que vos données soient utilisées pour vous envoyer les communications choisies. Vous pouvez vous désinscrire à tout moment. Pour en savoir plus, consultez notre',
     'form.legalLink': 'politique de confidentialité',
     'form.errEmail': 'Merci de saisir une adresse e-mail valide.',
+    'form.errCountry': 'Merci de sélectionner votre pays.',
+    'form.errAge': 'Vous devez confirmer avoir 16 ans ou plus.',
     'form.errGeneric': "L'inscription a échoué. Réessayez.",
     'form.doneTitle': 'Merci !',
     'form.doneText':
@@ -44,6 +52,8 @@ const messages: Record<Locale, Dict> = {
     'footer.legal': 'Mentions légales',
     'footer.privacy': 'Politique de confidentialité',
     'footer.rights': 'Tous droits réservés.',
+    'footer.license':
+      '© [Année] [Titulaire de licence — à compléter]. Miraculous™ et tous les personnages associés sont des marques de leurs détenteurs respectifs. Utilisé sous licence.',
   },
   en: {
     'hero.tagline': 'Your favourite heroes finally come to life on stage.',
@@ -56,25 +66,34 @@ const messages: Record<Locale, Dict> = {
     'signup.introText':
       'Sign up to be the first to hear about dates, on-sale times and behind-the-scenes secrets of the show.',
 
-    'form.title': 'Join the adventure',
+    'form.title': 'Give your children a magical night out',
     'form.lead':
-      'Be the first to know about tickets, dates and the making of the show.',
+      'Be the first to know when tickets go on sale, and plan the family outing not to be missed.',
     'form.firstName': 'First name',
-    'form.firstNamePlaceholder': 'Marinette',
+    'form.firstNamePlaceholder': 'Your first name',
     'form.email': 'Email',
     'form.emailPlaceholder': 'you@example.com',
+    'form.country': 'Country',
+    'form.countryPlaceholder': 'Select your country',
     'form.postalCode': 'Postal code',
     'form.phone': 'Phone',
-    'form.phonePlaceholder': '+33 6 12 34 56 78',
+    'form.phonePlaceholder': '6 12 34 56 78',
+    'form.dialCode': 'Dialing code',
     'form.optional': '(optional)',
-    'form.emailConsent': 'I agree to receive news and offers about the show by email.',
+    'form.emailConsent':
+      'I agree to receive news and offers about the show by email to plan our family outing.',
     'form.smsConsent': 'I agree to receive information about the show by SMS.',
+    'form.age': 'I confirm I am 16 or older.',
+    'form.smsNote':
+      'By providing your number, you agree to receive SMS about the show. Message rates may apply. Reply STOP to opt out.',
     'form.submit': 'Sign me up',
     'form.submitting': 'One moment…',
     'form.legalPre':
       'By signing up, you agree that your data will be used to send you the communications you selected. You can unsubscribe at any time. To learn more, see our',
     'form.legalLink': 'privacy policy',
     'form.errEmail': 'Please enter a valid email address.',
+    'form.errCountry': 'Please select your country.',
+    'form.errAge': 'You must confirm you are 16 or older.',
     'form.errGeneric': 'Sign-up failed. Please try again.',
     'form.doneTitle': 'Thank you!',
     'form.doneText':
@@ -83,6 +102,8 @@ const messages: Record<Locale, Dict> = {
     'footer.legal': 'Legal notice',
     'footer.privacy': 'Privacy policy',
     'footer.rights': 'All rights reserved.',
+    'footer.license':
+      '© [Year] [Licence holder — to complete]. Miraculous™ and all related characters are trademarks of their respective owners. Used under licence.',
   },
 }
 

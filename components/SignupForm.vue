@@ -1,5 +1,8 @@
 <script setup lang="ts">
-const { t } = useLocale()
+import { sortedCountries, countries } from '~/utils/countries'
+
+const { t, locale } = useLocale()
+const route = useRoute()
 
 const loading = ref(false)
 const done = ref(false)
@@ -7,19 +10,35 @@ const errorMsg = ref('')
 
 const firstName = ref('')
 const email = ref('')
+const country = ref('') // ISO alpha-2, required
 const postalCode = ref('')
+const dialCode = ref('+33')
 const phone = ref('')
 const emailConsent = ref(false)
 const smsConsent = ref(false)
+const ageConfirmed = ref(false)
 
+const countryOptions = computed(() => sortedCountries(locale.value))
 const emailValid = computed(() => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim()))
+
+// UTM attribution captured from the landing URL, forwarded with the contact.
+const utm = {
+  source: (route.query.utm_source as string) || '',
+  medium: (route.query.utm_medium as string) || '',
+  campaign: (route.query.utm_campaign as string) || '',
+}
+
+// Default the dialing code to the selected country.
+watch(country, (code) => {
+  const c = countries.find((x) => x.code === code)
+  if (c) dialCode.value = c.dial
+})
 
 async function submit() {
   errorMsg.value = ''
-  if (!emailValid.value) {
-    errorMsg.value = t('form.errEmail')
-    return
-  }
+  if (!emailValid.value) return void (errorMsg.value = t('form.errEmail'))
+  if (!country.value) return void (errorMsg.value = t('form.errCountry'))
+  if (!ageConfirmed.value) return void (errorMsg.value = t('form.errAge'))
 
   loading.value = true
   try {
@@ -28,10 +47,15 @@ async function submit() {
       body: {
         firstName: firstName.value,
         email: email.value,
+        country: country.value,
         postalCode: postalCode.value,
-        phone: phone.value,
+        phone: phone.value.trim() ? `${dialCode.value} ${phone.value.trim()}` : '',
         emailConsent: emailConsent.value,
         smsConsent: smsConsent.value,
+        ageConfirmed: ageConfirmed.value,
+        utmSource: utm.source,
+        utmMedium: utm.medium,
+        utmCampaign: utm.campaign,
       },
     })
     done.value = true
@@ -74,20 +98,36 @@ async function submit() {
         />
       </div>
 
-      <div class="field-row">
-        <div class="field">
-          <label for="postalCode">{{ t('form.postalCode') }} <span class="opt">{{ t('form.optional') }}</span></label>
-          <input
-            id="postalCode"
-            v-model="postalCode"
-            type="text"
-            inputmode="numeric"
-            autocomplete="postal-code"
-            placeholder="75001"
-          />
-        </div>
-        <div class="field">
-          <label for="phone">{{ t('form.phone') }} <span class="opt">{{ t('form.optional') }}</span></label>
+      <div class="field">
+        <label for="country">{{ t('form.country') }} <span class="req">*</span></label>
+        <select id="country" v-model="country" required class="select" :class="{ empty: !country }">
+          <option value="" disabled>{{ t('form.countryPlaceholder') }}</option>
+          <option v-for="c in countryOptions" :key="c.code" :value="c.code">
+            {{ locale === 'fr' ? c.fr : c.en }}
+          </option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="postalCode">{{ t('form.postalCode') }} <span class="opt">{{ t('form.optional') }}</span></label>
+        <input
+          id="postalCode"
+          v-model="postalCode"
+          type="text"
+          inputmode="numeric"
+          autocomplete="postal-code"
+          placeholder="75001"
+        />
+      </div>
+
+      <div class="field">
+        <label for="phone">{{ t('form.phone') }} <span class="opt">{{ t('form.optional') }}</span></label>
+        <div class="phone-group">
+          <select v-model="dialCode" class="select dial" :aria-label="t('form.dialCode')">
+            <option v-for="c in countryOptions" :key="c.code" :value="c.dial">
+              {{ c.code }} {{ c.dial }}
+            </option>
+          </select>
           <input
             id="phone"
             v-model="phone"
@@ -106,6 +146,12 @@ async function submit() {
       <label class="check">
         <input v-model="smsConsent" type="checkbox" />
         <span>{{ t('form.smsConsent') }}</span>
+      </label>
+      <p class="sms-note">{{ t('form.smsNote') }}</p>
+
+      <label class="check check--required">
+        <input v-model="ageConfirmed" type="checkbox" />
+        <span>{{ t('form.age') }} <span class="req">*</span></span>
       </label>
 
       <p v-if="errorMsg" class="error" role="alert">{{ errorMsg }}</p>
@@ -154,11 +200,6 @@ async function submit() {
 
 .field {
   margin-bottom: 1rem;
-  flex: 1;
-}
-.field-row {
-  display: flex;
-  gap: 0.9rem;
 }
 .field label {
   display: block;
@@ -177,7 +218,8 @@ async function submit() {
   opacity: 0.65;
 }
 
-.field input {
+.field input,
+.select {
   width: 100%;
   padding: 0.85rem 1rem;
   background: rgba(0, 0, 0, 0.35);
@@ -191,10 +233,40 @@ async function submit() {
 .field input::placeholder {
   color: rgba(203, 192, 174, 0.4);
 }
-.field input:focus {
+.field input:focus,
+.select:focus {
   outline: none;
   border-color: var(--red);
   box-shadow: 0 0 0 3px rgba(228, 3, 46, 0.25);
+}
+
+/* Native select styling */
+.select {
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23cbc0ae' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.4rem;
+}
+.select.empty {
+  color: rgba(203, 192, 174, 0.4);
+}
+.select option {
+  color: #111;
+}
+
+.phone-group {
+  display: flex;
+  gap: 0.5rem;
+}
+.phone-group .dial {
+  width: 7rem;
+  flex: none;
+}
+.phone-group input {
+  flex: 1;
 }
 
 .check {
@@ -203,11 +275,8 @@ async function submit() {
   align-items: flex-start;
   font-size: 0.9rem;
   color: var(--cream-dim);
-  margin: 0.5rem 0 1rem;
+  margin: 0.5rem 0 0.75rem;
   cursor: pointer;
-}
-.check:last-of-type {
-  margin-bottom: 1.5rem;
 }
 .check input {
   margin-top: 0.2rem;
@@ -215,6 +284,17 @@ async function submit() {
   height: 18px;
   accent-color: var(--red);
   flex: none;
+}
+.check--required {
+  margin-bottom: 1.25rem;
+}
+
+.sms-note {
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: rgba(203, 192, 174, 0.5);
+  margin: -0.35rem 0 1rem;
+  padding-left: 1.85rem;
 }
 
 .btn {
@@ -265,12 +345,5 @@ async function submit() {
 .done__mark {
   font-size: 3rem;
   margin-top: 1rem;
-}
-
-@media (max-width: 480px) {
-  .field-row {
-    flex-direction: column;
-    gap: 0;
-  }
 }
 </style>
