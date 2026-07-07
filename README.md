@@ -27,10 +27,10 @@ npm run dev             # http://localhost:3000
 
 ## Signup flow
 
-1. **Step 1** — prénom, e-mail (required), code postal (optional) and an
-   (unchecked) consent checkbox for e-mail updates. Submitting upserts the
-   contact in Brevo.
-2. **Step 2** — optional phone number + SMS consent. Skippable.
+A single screen collects prénom, e-mail (required), code postal (optional) and
+phone (optional), with two independent, unchecked-by-default opt-in checkboxes —
+one for e-mail updates and one for SMS updates. Submitting upserts the contact
+in Brevo with the consent flags recorded explicitly.
 
 Consent choices are stored as Brevo contact attributes:
 
