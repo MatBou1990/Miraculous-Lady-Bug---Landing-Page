@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const { t, locale, toggle } = useLocale()
+
 function scrollToSignup() {
   document.getElementById('signup')?.scrollIntoView({ behavior: 'smooth' })
 }
@@ -6,30 +8,33 @@ function scrollToSignup() {
 
 <template>
   <div class="page">
+    <!-- Language toggle (French launch default; English for client review) -->
+    <button class="lang" type="button" @click="toggle">
+      <span :class="{ on: locale === 'fr' }">FR</span>
+      <span class="sep">/</span>
+      <span :class="{ on: locale === 'en' }">EN</span>
+    </button>
+
     <!-- ===================== HERO ===================== -->
     <section class="hero">
       <div class="hero__glow" aria-hidden="true"></div>
 
-      <!-- Key art -->
+      <!-- Key art (left) -->
       <div class="hero__art" aria-hidden="true">
         <img src="/images/keyart-trans.png" alt="" />
       </div>
 
-      <!-- Content -->
+      <!-- Content (right) -->
       <div class="hero__content container">
-        <img
-          class="hero__logo"
-          src="/images/logo.png"
-          alt="Miraculous : Ladybug & Cat Noir — Le Spectacle Live"
-        />
-        <p class="hero__tagline">Vos héros préférés prennent enfin vie sur scène.</p>
+        <img class="hero__logo" src="/images/logo.png" :alt="t('hero.logoAlt')" />
+        <p class="hero__tagline">{{ t('hero.tagline') }}</p>
         <button class="cta" type="button" @click="scrollToSignup">
-          Restez informé·e
+          {{ t('hero.cta') }}
           <span class="cta__arrow" aria-hidden="true">↓</span>
         </button>
       </div>
 
-      <button class="scroll-hint" type="button" aria-label="Aller à l'inscription" @click="scrollToSignup">
+      <button class="scroll-hint" type="button" :aria-label="t('hero.scrollAria')" @click="scrollToSignup">
         <span></span>
       </button>
     </section>
@@ -38,11 +43,10 @@ function scrollToSignup() {
     <section id="signup" class="signup-section">
       <div class="container signup-section__inner">
         <div class="signup-section__intro">
-          <h1 class="signup-section__title">Ne manquez pas<br />le lever de rideau</h1>
-          <p class="signup-section__text">
-            Inscrivez-vous pour recevoir en avant-première les dates, l'ouverture de la
-            billetterie et les secrets de fabrication du spectacle.
-          </p>
+          <h1 class="signup-section__title">
+            {{ t('signup.introTitleA') }}<br />{{ t('signup.introTitleB') }}
+          </h1>
+          <p class="signup-section__text">{{ t('signup.introText') }}</p>
         </div>
         <SignupForm />
       </div>
@@ -51,11 +55,11 @@ function scrollToSignup() {
     <footer class="footer">
       <div class="container footer__inner">
         <nav class="footer__links">
-          <NuxtLink to="/mentions-legales">Mentions légales</NuxtLink>
+          <NuxtLink to="/mentions-legales">{{ t('footer.legal') }}</NuxtLink>
           <span aria-hidden="true">·</span>
-          <NuxtLink to="/confidentialite">Politique de confidentialité</NuxtLink>
+          <NuxtLink to="/confidentialite">{{ t('footer.privacy') }}</NuxtLink>
         </nav>
-        <p>© {{ new Date().getFullYear() }} Miraculous — Le Spectacle Live. Tous droits réservés.</p>
+        <p>© {{ new Date().getFullYear() }} Miraculous — Le Spectacle Live. {{ t('footer.rights') }}</p>
       </div>
     </footer>
   </div>
@@ -66,6 +70,33 @@ function scrollToSignup() {
   min-height: 100dvh;
 }
 
+/* --------------------------- LANG TOGGLE --------------------------- */
+.lang {
+  position: fixed;
+  top: 1.1rem;
+  right: 1.1rem;
+  z-index: 50;
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+  padding: 0.4rem 0.75rem;
+  background: rgba(10, 5, 7, 0.6);
+  border: 1px solid rgba(243, 233, 216, 0.25);
+  border-radius: 999px;
+  color: var(--cream-dim);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+}
+.lang span.on {
+  color: var(--red);
+}
+.lang .sep {
+  opacity: 0.4;
+}
+
 /* ------------------------------- HERO ------------------------------- */
 .hero {
   position: relative;
@@ -74,20 +105,21 @@ function scrollToSignup() {
   align-items: center;
   overflow: hidden;
   background:
-    radial-gradient(120% 90% at 85% 20%, rgba(168, 0, 32, 0.35), transparent 60%),
+    radial-gradient(120% 90% at 15% 20%, rgba(168, 0, 32, 0.35), transparent 60%),
     linear-gradient(180deg, #120809 0%, var(--ink) 100%);
 }
 
 .hero__glow {
   position: absolute;
   inset: 0;
-  background: radial-gradient(60% 50% at 80% 45%, rgba(228, 3, 46, 0.25), transparent 70%);
+  background: radial-gradient(60% 50% at 20% 45%, rgba(228, 3, 46, 0.25), transparent 70%);
   pointer-events: none;
 }
 
+/* Key art on the LEFT */
 .hero__art {
   position: absolute;
-  right: -4%;
+  left: -4%;
   top: 50%;
   transform: translateY(-50%);
   width: 62%;
@@ -98,25 +130,27 @@ function scrollToSignup() {
 .hero__art img {
   width: 100%;
   height: auto;
-  /* Blend the light key-art background into the dark stage */
-  mix-blend-mode: normal;
 }
 .hero__art::after {
-  /* Fade the left edge of the art into the background */
+  /* Fade the right (inner) edge of the art into the background */
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, var(--ink) 0%, transparent 22%);
+  background: linear-gradient(90deg, transparent 72%, var(--ink) 100%);
   pointer-events: none;
 }
 
+/* Content pushed to the RIGHT */
 .hero__content {
   position: relative;
   z-index: 2;
   max-width: 640px;
+  margin-left: auto;
+  text-align: right;
 }
 .hero__logo {
   width: min(78%, 460px);
+  margin-left: auto;
   filter: drop-shadow(0 6px 24px rgba(0, 0, 0, 0.6));
   margin-bottom: 1.5rem;
 }
@@ -124,6 +158,7 @@ function scrollToSignup() {
   font-size: clamp(1.1rem, 2.6vw, 1.6rem);
   color: var(--cream);
   max-width: 22ch;
+  margin-left: auto;
   margin-bottom: 2rem;
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
 }
@@ -243,7 +278,7 @@ function scrollToSignup() {
   }
 }
 
-/* Mobile: key art becomes a faded backdrop behind the content */
+/* Mobile: key art becomes a faded backdrop behind centred content */
 @media (max-width: 859px) {
   .hero {
     align-items: flex-start;
@@ -252,7 +287,7 @@ function scrollToSignup() {
   }
   .hero__art {
     width: 130%;
-    right: -15%;
+    left: -15%;
     top: auto;
     bottom: 0;
     transform: none;
@@ -263,6 +298,7 @@ function scrollToSignup() {
   }
   .hero__content {
     margin-inline: auto;
+    text-align: center;
   }
   .hero__logo {
     width: min(85%, 360px);

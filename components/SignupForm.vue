@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const { t } = useLocale()
+
 const loading = ref(false)
 const done = ref(false)
 const errorMsg = ref('')
@@ -15,7 +17,7 @@ const emailValid = computed(() => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.
 async function submit() {
   errorMsg.value = ''
   if (!emailValid.value) {
-    errorMsg.value = 'Merci de saisir une adresse e-mail valide.'
+    errorMsg.value = t('form.errEmail')
     return
   }
 
@@ -35,7 +37,7 @@ async function submit() {
     done.value = true
   } catch (err: any) {
     errorMsg.value =
-      err?.data?.statusMessage || err?.statusMessage || "L'inscription a échoué. Réessayez."
+      err?.data?.statusMessage || err?.statusMessage || t('form.errGeneric')
   } finally {
     loading.value = false
   }
@@ -46,31 +48,35 @@ async function submit() {
   <div class="signup">
     <!-- FORM -->
     <form v-if="!done" class="form" novalidate @submit.prevent="submit">
-      <h2 class="form__title">Rejoignez l'aventure</h2>
-      <p class="form__lead">
-        Soyez les premiers informés de la billetterie, des dates et des coulisses du spectacle.
-      </p>
+      <h2 class="form__title">{{ t('form.title') }}</h2>
+      <p class="form__lead">{{ t('form.lead') }}</p>
 
       <div class="field">
-        <label for="firstName">Prénom</label>
-        <input id="firstName" v-model="firstName" type="text" autocomplete="given-name" placeholder="Marinette" />
+        <label for="firstName">{{ t('form.firstName') }}</label>
+        <input
+          id="firstName"
+          v-model="firstName"
+          type="text"
+          autocomplete="given-name"
+          :placeholder="t('form.firstNamePlaceholder')"
+        />
       </div>
 
       <div class="field">
-        <label for="email">E-mail <span class="req">*</span></label>
+        <label for="email">{{ t('form.email') }} <span class="req">*</span></label>
         <input
           id="email"
           v-model="email"
           type="email"
           required
           autocomplete="email"
-          placeholder="vous@exemple.com"
+          :placeholder="t('form.emailPlaceholder')"
         />
       </div>
 
       <div class="field-row">
         <div class="field">
-          <label for="postalCode">Code postal <span class="opt">(optionnel)</span></label>
+          <label for="postalCode">{{ t('form.postalCode') }} <span class="opt">{{ t('form.optional') }}</span></label>
           <input
             id="postalCode"
             v-model="postalCode"
@@ -81,48 +87,43 @@ async function submit() {
           />
         </div>
         <div class="field">
-          <label for="phone">Téléphone <span class="opt">(optionnel)</span></label>
+          <label for="phone">{{ t('form.phone') }} <span class="opt">{{ t('form.optional') }}</span></label>
           <input
             id="phone"
             v-model="phone"
             type="tel"
             autocomplete="tel"
-            placeholder="06 12 34 56 78"
+            :placeholder="t('form.phonePlaceholder')"
           />
         </div>
       </div>
 
       <label class="check">
         <input v-model="emailConsent" type="checkbox" />
-        <span>J'accepte de recevoir les actualités et offres du spectacle par e-mail.</span>
+        <span>{{ t('form.emailConsent') }}</span>
       </label>
 
       <label class="check">
         <input v-model="smsConsent" type="checkbox" />
-        <span>J'accepte de recevoir des informations sur le spectacle par SMS.</span>
+        <span>{{ t('form.smsConsent') }}</span>
       </label>
 
       <p v-if="errorMsg" class="error" role="alert">{{ errorMsg }}</p>
 
       <button class="btn" type="submit" :disabled="loading">
-        {{ loading ? 'Un instant…' : 'Je m’inscris' }}
+        {{ loading ? t('form.submitting') : t('form.submit') }}
       </button>
 
       <p class="legal">
-        En vous inscrivant, vous acceptez que vos données soient utilisées pour vous envoyer
-        les communications choisies. Vous pouvez vous désinscrire à tout moment. Pour en savoir
-        plus, consultez notre
-        <NuxtLink to="/confidentialite">politique de confidentialité</NuxtLink>.
+        {{ t('form.legalPre') }}
+        <NuxtLink to="/confidentialite">{{ t('form.legalLink') }}</NuxtLink>.
       </p>
     </form>
 
     <!-- DONE -->
     <div v-else class="form done">
-      <h2 class="form__title">Merci&nbsp;!</h2>
-      <p class="form__lead">
-        Votre inscription est confirmée. Gardez un œil sur votre boîte mail — le rideau se lève
-        bientôt.
-      </p>
+      <h2 class="form__title">{{ t('form.doneTitle') }}</h2>
+      <p class="form__lead">{{ t('form.doneText') }}</p>
       <div class="done__mark" aria-hidden="true">🐞</div>
     </div>
   </div>
