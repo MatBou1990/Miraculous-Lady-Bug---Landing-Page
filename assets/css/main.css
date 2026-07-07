@@ -1,0 +1,91 @@
+/* ---------------------------------------------------------------------------
+   Fonts
+   The art-director font is "Aquavit (TT)". Drop the file(s) into public/fonts/
+   as Aquavit.woff2 / Aquavit.woff (or .ttf) and it is picked up automatically.
+   Until then, the display stack falls back to a bold condensed system face.
+--------------------------------------------------------------------------- */
+@font-face {
+  font-family: 'Aquavit';
+  src:
+    url('/fonts/Aquavit.woff2') format('woff2'),
+    url('/fonts/Aquavit.woff') format('woff'),
+    url('/fonts/Aquavit.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Miraculous palette */
+  --red: #e4032e;
+  --red-deep: #a80020;
+  --cream: #f3e9d8;
+  --cream-dim: #cbc0ae;
+  --ink: #0a0507;
+  --ink-soft: #150a0d;
+  --ink-panel: #1d1013;
+
+  --font-display: 'Aquavit', 'Arial Narrow', 'Helvetica Neue', Impact, sans-serif;
+  --font-body: 'Poppins', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+
+  --maxw: 1200px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--ink);
+  color: var(--cream);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Utility */
+.container {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
