@@ -105,39 +105,47 @@ function scrollToSignup() {
   align-items: center;
   overflow: hidden;
   background:
-    radial-gradient(120% 90% at 15% 20%, rgba(168, 0, 32, 0.35), transparent 60%),
-    linear-gradient(180deg, #120809 0%, var(--ink) 100%);
+    radial-gradient(90% 80% at 22% 42%, rgba(168, 0, 32, 0.28), transparent 55%),
+    linear-gradient(180deg, #140809 0%, var(--ink) 70%);
 }
 
+/* Red "spotlight" sun-glow behind the art, echoing the key-art sun */
 .hero__glow {
   position: absolute;
-  inset: 0;
-  background: radial-gradient(60% 50% at 20% 45%, rgba(228, 3, 46, 0.25), transparent 70%);
-  pointer-events: none;
-}
-
-/* Key art on the LEFT */
-.hero__art {
-  position: absolute;
-  left: -4%;
+  left: -10%;
   top: 50%;
   transform: translateY(-50%);
-  width: 62%;
-  max-width: 900px;
+  width: 55%;
+  aspect-ratio: 1;
+  background: radial-gradient(circle, rgba(228, 3, 46, 0.5) 0%, rgba(228, 3, 46, 0.12) 38%, transparent 66%);
+  filter: blur(10px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Key art on the LEFT, edge feathered into the dark with a gradient mask */
+.hero__art {
+  position: absolute;
+  left: -3%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 58%;
+  max-width: 880px;
   z-index: 1;
-  filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.6));
+  filter: drop-shadow(0 40px 70px rgba(0, 0, 0, 0.55));
+  /* Slick dissolve on the right + a touch on the bottom, into the stage dark */
+  -webkit-mask-image:
+    linear-gradient(90deg, #000 62%, transparent 100%),
+    linear-gradient(0deg, transparent 0%, #000 14%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(90deg, #000 62%, transparent 100%),
+    linear-gradient(0deg, transparent 0%, #000 14%);
+  mask-composite: intersect;
 }
 .hero__art img {
   width: 100%;
   height: auto;
-}
-.hero__art::after {
-  /* Fade the right (inner) edge of the art into the background */
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, transparent 72%, var(--ink) 100%);
-  pointer-events: none;
 }
 
 /* Content pushed to the RIGHT */
@@ -286,15 +294,21 @@ function scrollToSignup() {
     text-align: center;
   }
   .hero__art {
-    width: 130%;
-    left: -15%;
+    width: 128%;
+    left: -14%;
     top: auto;
     bottom: 0;
     transform: none;
-    opacity: 0.4;
+    opacity: 0.35;
+    -webkit-mask-image: linear-gradient(0deg, transparent 4%, #000 55%);
+    mask-image: linear-gradient(0deg, transparent 4%, #000 55%);
   }
-  .hero__art::after {
-    background: linear-gradient(0deg, transparent 0%, var(--ink) 85%);
+  .hero__glow {
+    left: 50%;
+    transform: translate(-50%, -50%);
+    top: 42%;
+    width: 90%;
+    opacity: 0.7;
   }
   .hero__content {
     margin-inline: auto;

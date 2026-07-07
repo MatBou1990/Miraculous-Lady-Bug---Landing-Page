@@ -87,7 +87,8 @@ const messages: Record<Locale, Dict> = {
 }
 
 export function useLocale() {
-  const locale = useState<Locale>('locale', () => 'fr')
+  // English is the default for now (client review / approval). Toggle to FR.
+  const locale = useState<Locale>('locale', () => 'en')
 
   const t = (key: string): string => messages[locale.value][key] ?? key
 
