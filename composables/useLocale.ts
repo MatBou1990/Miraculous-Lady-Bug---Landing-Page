@@ -11,8 +11,8 @@ const messages: Record<Locale, Dict> = {
     'hero.logoAlt': 'Miraculous : Ladybug & Cat Noir — Le Spectacle Live',
     'hero.scrollAria': "Aller à l'inscription",
 
-    'signup.introTitleA': 'Ne manquez pas',
-    'signup.introTitleB': 'le lever de rideau',
+    'signup.introTitleA': 'Soyez aux',
+    'signup.introTitleB': 'premières loges',
     'signup.introText':
       "Inscrivez-vous pour recevoir en avant-première les dates, l'ouverture de la billetterie et les secrets de fabrication du spectacle.",
 

@@ -286,40 +286,51 @@ function scrollToSignup() {
   }
 }
 
-/* Mobile: key art becomes a faded backdrop behind centred content */
+/* Mobile: key art sits at the TOP, full and sharp; content stacks below */
 @media (max-width: 859px) {
   .hero {
-    align-items: flex-start;
-    padding-top: 12vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 1.5rem 3rem;
     text-align: center;
   }
   .hero__art {
-    width: 128%;
-    left: -14%;
+    position: static;
+    order: -1;
+    width: 100%;
+    max-width: 540px;
+    left: auto;
     top: auto;
-    bottom: 0;
+    bottom: auto;
     transform: none;
-    opacity: 0.35;
-    -webkit-mask-image: linear-gradient(0deg, transparent 4%, #000 55%);
-    mask-image: linear-gradient(0deg, transparent 4%, #000 55%);
+    opacity: 1;
+    margin-top: 3.5rem; /* clear the language toggle */
+    filter: drop-shadow(0 24px 44px rgba(0, 0, 0, 0.55));
+    /* Melt the bottom of the art into the content below */
+    -webkit-mask-image: linear-gradient(180deg, #000 66%, transparent 100%);
+    mask-image: linear-gradient(180deg, #000 66%, transparent 100%);
   }
   .hero__glow {
     left: 50%;
+    top: 34%;
+    width: 110%;
     transform: translate(-50%, -50%);
-    top: 42%;
-    width: 90%;
-    opacity: 0.7;
+    opacity: 0.75;
   }
   .hero__content {
-    margin-inline: auto;
+    margin: -1.5rem auto 0;
     text-align: center;
   }
   .hero__logo {
-    width: min(85%, 360px);
+    width: min(80%, 340px);
     margin-inline: auto;
   }
   .hero__tagline {
     margin-inline: auto;
+  }
+  .scroll-hint {
+    display: none;
   }
 }
 </style>
