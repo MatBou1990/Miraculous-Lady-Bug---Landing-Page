@@ -8,10 +8,10 @@ function scrollToSignup() {
 
 // ---- Live layout tuner (only visible with ?tune=1 in the URL) ----
 const tuning = computed(() => route.query.tune !== undefined)
-const heroH = ref(80) // hero height (svh)
-const topPad = ref(8) // space above the content (vh)
-const artW = ref(64) // key-art width (% of viewport)
-const artX = ref(-4) // key-art horizontal offset (%)
+const heroH = ref(72) // hero height (svh)
+const topPad = ref(7) // space above the content (vh)
+const artW = ref(60) // key-art width (% of viewport)
+const artX = ref(-5) // key-art horizontal offset (%)
 const artY = ref(0) // key-art vertical offset (%)
 const textScale = ref(1) // scale of the centered logo/tagline/CTA block
 
