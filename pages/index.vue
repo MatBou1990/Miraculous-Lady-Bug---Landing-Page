@@ -1,9 +1,24 @@
 <script setup lang="ts">
 const { t, locale, toggle } = useLocale()
+const route = useRoute()
 
 function scrollToSignup() {
   document.getElementById('signup')?.scrollIntoView({ behavior: 'smooth' })
 }
+
+// ---- Live layout tuner (only visible with ?tune=1 in the URL) ----
+const tuning = computed(() => route.query.tune !== undefined)
+const artW = ref(46) // key-art width (% of viewport)
+const artX = ref(0) // key-art horizontal offset (%)
+const artY = ref(0) // key-art vertical offset (%)
+const textScale = ref(1) // scale of the centered logo/tagline/CTA block
+
+const heroStyle = computed(() => ({
+  '--art-w': artW.value + '%',
+  '--art-x': artX.value + '%',
+  '--art-y': artY.value + '%',
+  '--content-scale': String(textScale.value),
+}))
 </script>
 
 <template>
@@ -15,8 +30,26 @@ function scrollToSignup() {
       <span :class="{ on: locale === 'en' }">EN</span>
     </button>
 
+    <!-- Live layout tuner — add ?tune=1 to the URL to show it -->
+    <div v-if="tuning" class="tuner">
+      <strong>Réglages hero</strong>
+      <label>Image&nbsp;: {{ artW }}%
+        <input v-model.number="artW" type="range" min="20" max="80" />
+      </label>
+      <label>Image X&nbsp;: {{ artX }}%
+        <input v-model.number="artX" type="range" min="-25" max="40" />
+      </label>
+      <label>Image Y&nbsp;: {{ artY }}%
+        <input v-model.number="artY" type="range" min="-20" max="20" />
+      </label>
+      <label>Texte&nbsp;: {{ textScale }}×
+        <input v-model.number="textScale" type="range" min="0.6" max="1.6" step="0.05" />
+      </label>
+      <code>art-w:{{ artW }}% x:{{ artX }}% y:{{ artY }}% text:{{ textScale }}</code>
+    </div>
+
     <!-- ===================== HERO ===================== -->
-    <section class="hero">
+    <section class="hero" :style="heroStyle">
       <div class="hero__glow" aria-hidden="true"></div>
 
       <!-- Key art (bottom-left) -->
@@ -98,6 +131,44 @@ function scrollToSignup() {
   opacity: 0.4;
 }
 
+/* --------------------------- LIVE TUNER --------------------------- */
+.tuner {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 230px;
+  padding: 0.9rem 1rem;
+  background: rgba(10, 5, 7, 0.85);
+  border: 1px solid rgba(228, 3, 46, 0.5);
+  border-radius: 12px;
+  color: var(--cream);
+  font-size: 0.78rem;
+  backdrop-filter: blur(8px);
+}
+.tuner strong {
+  color: var(--red);
+  font-size: 0.8rem;
+}
+.tuner label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.tuner input[type='range'] {
+  width: 100%;
+  accent-color: var(--red);
+}
+.tuner code {
+  margin-top: 0.25rem;
+  font-size: 0.68rem;
+  color: var(--cream-dim);
+  word-break: break-all;
+}
+
 /* ------------------------------- HERO ------------------------------- */
 .hero {
   position: relative;
@@ -124,14 +195,15 @@ function scrollToSignup() {
   z-index: 0;
 }
 
-/* Key art anchored BOTTOM-LEFT, right edge feathered into the dark */
+/* Key art anchored BOTTOM-LEFT, right edge feathered into the dark.
+   Size/position driven by CSS vars so the ?tune=1 panel can adjust them live. */
 .hero__art {
   position: absolute;
   left: 0;
   bottom: 0;
   top: auto;
-  transform: none;
-  width: 46%;
+  transform: translate(var(--art-x, 0%), var(--art-y, 0%));
+  width: var(--art-w, 46%);
   max-width: 720px;
   z-index: 1;
   filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.5));
@@ -151,6 +223,8 @@ function scrollToSignup() {
   max-width: 640px;
   margin: 0 auto;
   text-align: center;
+  transform: scale(var(--content-scale, 1));
+  transform-origin: top center;
 }
 .hero__logo {
   width: min(74%, 440px);
