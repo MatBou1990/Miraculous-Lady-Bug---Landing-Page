@@ -103,43 +103,40 @@ function scrollToSignup() {
   position: relative;
   min-height: 100svh;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  padding-top: 8vh;
   overflow: hidden;
   background:
-    radial-gradient(90% 80% at 50% 62%, rgba(168, 0, 32, 0.3), transparent 58%),
+    radial-gradient(90% 80% at 22% 42%, rgba(168, 0, 32, 0.28), transparent 55%),
     linear-gradient(180deg, #140809 0%, var(--ink) 70%);
 }
 
-/* Red "spotlight" sun-glow behind the centered art */
+/* Red "spotlight" sun-glow behind the art, echoing the key-art sun */
 .hero__glow {
   position: absolute;
-  left: 50%;
-  bottom: 0;
-  transform: translateX(-50%);
-  width: 70%;
+  left: -12%;
+  top: 46%;
+  transform: translateY(-50%);
+  width: 56%;
   aspect-ratio: 1;
-  background: radial-gradient(circle, rgba(228, 3, 46, 0.42) 0%, rgba(228, 3, 46, 0.1) 40%, transparent 66%);
+  background: radial-gradient(circle, rgba(228, 3, 46, 0.5) 0%, rgba(228, 3, 46, 0.12) 38%, transparent 66%);
   filter: blur(10px);
   pointer-events: none;
   z-index: 0;
 }
 
-/* Key art centered, anchored to the bottom */
+/* Key art anchored BOTTOM-LEFT, right edge feathered into the dark */
 .hero__art {
   position: absolute;
-  left: 50%;
+  left: 0;
   bottom: 0;
   top: auto;
-  transform: translateX(-50%);
-  width: 32%;
-  max-width: 470px;
+  transform: none;
+  width: 46%;
+  max-width: 720px;
   z-index: 1;
   filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.5));
-  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 14%, #000 86%, transparent 100%);
-  mask-image: linear-gradient(90deg, transparent 0%, #000 14%, #000 86%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, #000 86%, transparent 100%);
+  mask-image: linear-gradient(90deg, #000 86%, transparent 100%);
 }
 .hero__art img {
   width: 100%;
