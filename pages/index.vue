@@ -9,6 +9,7 @@ function scrollToSignup() {
 // ---- Live layout tuner (only visible with ?tune=1 in the URL) ----
 const tuning = computed(() => route.query.tune !== undefined)
 const heroH = ref(80) // hero height (svh)
+const topPad = ref(8) // space above the content (vh)
 const artW = ref(64) // key-art width (% of viewport)
 const artX = ref(-4) // key-art horizontal offset (%)
 const artY = ref(0) // key-art vertical offset (%)
@@ -16,6 +17,7 @@ const textScale = ref(1) // scale of the centered logo/tagline/CTA block
 
 const heroStyle = computed(() => ({
   '--hero-h': heroH.value + 'svh',
+  '--hero-pt': topPad.value + 'vh',
   '--art-w': artW.value + '%',
   '--art-x': artX.value + '%',
   '--art-y': artY.value + '%',
@@ -23,7 +25,8 @@ const heroStyle = computed(() => ({
 }))
 
 const tuneSummary = computed(
-  () => `hero-h:${heroH.value}svh art-w:${artW.value}% x:${artX.value}% y:${artY.value}% text:${textScale.value}`,
+  () =>
+    `hero-h:${heroH.value}svh top:${topPad.value}vh art-w:${artW.value}% x:${artX.value}% y:${artY.value}% text:${textScale.value}`,
 )
 const copied = ref(false)
 
@@ -35,18 +38,20 @@ onMounted(() => {
     const s = JSON.parse(localStorage.getItem('heroTune') || 'null')
     if (s) {
       heroH.value = s.heroH ?? heroH.value
+      topPad.value = s.topPad ?? topPad.value
       artW.value = s.artW ?? artW.value
       artX.value = s.artX ?? artX.value
       artY.value = s.artY ?? artY.value
       textScale.value = s.textScale ?? textScale.value
     }
   } catch {}
-  watch([heroH, artW, artX, artY, textScale], () => {
+  watch([heroH, topPad, artW, artX, artY, textScale], () => {
     try {
       localStorage.setItem(
         'heroTune',
         JSON.stringify({
           heroH: heroH.value,
+          topPad: topPad.value,
           artW: artW.value,
           artX: artX.value,
           artY: artY.value,
@@ -80,6 +85,9 @@ function copyTune() {
       <strong>Réglages hero</strong>
       <label>Hauteur&nbsp;: {{ heroH }}svh
         <input v-model.number="heroH" type="range" min="45" max="100" />
+      </label>
+      <label>Haut (air)&nbsp;: {{ topPad }}vh
+        <input v-model.number="topPad" type="range" min="0" max="24" />
       </label>
       <label>Image&nbsp;: {{ artW }}%
         <input v-model.number="artW" type="range" min="20" max="80" />
@@ -241,7 +249,7 @@ function copyTune() {
   min-height: var(--hero-h, 78svh);
   display: flex;
   align-items: flex-start;
-  padding-top: 6vh;
+  padding-top: var(--hero-pt, 8vh);
   overflow: hidden;
   background:
     radial-gradient(90% 80% at 22% 42%, rgba(168, 0, 32, 0.28), transparent 55%),
