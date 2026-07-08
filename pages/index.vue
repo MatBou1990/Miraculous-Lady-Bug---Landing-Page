@@ -8,8 +8,8 @@ function scrollToSignup() {
 
 // ---- Live layout tuner (only visible with ?tune=1 in the URL) ----
 const tuning = computed(() => route.query.tune !== undefined)
-const artW = ref(46) // key-art width (% of viewport)
-const artX = ref(0) // key-art horizontal offset (%)
+const artW = ref(56) // key-art width (% of viewport)
+const artX = ref(-6) // key-art horizontal offset (%)
 const artY = ref(0) // key-art vertical offset (%)
 const textScale = ref(1) // scale of the centered logo/tagline/CTA block
 
@@ -203,8 +203,8 @@ const heroStyle = computed(() => ({
   bottom: 0;
   top: auto;
   transform: translate(var(--art-x, 0%), var(--art-y, 0%));
-  width: var(--art-w, 46%);
-  max-width: 720px;
+  width: var(--art-w, 56%);
+  max-width: 1000px;
   z-index: 1;
   filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.5));
   -webkit-mask-image: linear-gradient(90deg, #000 86%, transparent 100%);
