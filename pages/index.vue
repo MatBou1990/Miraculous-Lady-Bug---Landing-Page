@@ -21,7 +21,7 @@ function scrollToSignup() {
 
       <!-- Key art (left) -->
       <div class="hero__art" aria-hidden="true">
-        <img src="/images/keyart-trans.png" alt="" />
+        <img src="/images/keyart-0707-trans.png" alt="" />
       </div>
 
       <!-- Content (right) -->
@@ -127,21 +127,21 @@ function scrollToSignup() {
 /* Key art on the LEFT, edge feathered into the dark with a gradient mask */
 .hero__art {
   position: absolute;
-  left: -3%;
+  left: -6%;
   top: 50%;
   transform: translateY(-50%);
-  width: 58%;
-  max-width: 880px;
+  width: 52%;
+  max-width: 820px;
   z-index: 1;
   filter: drop-shadow(0 40px 70px rgba(0, 0, 0, 0.55));
   /* Slick dissolve on the right + a touch on the bottom, into the stage dark */
   -webkit-mask-image:
-    linear-gradient(90deg, #000 62%, transparent 100%),
-    linear-gradient(0deg, transparent 0%, #000 14%);
+    linear-gradient(90deg, #000 82%, transparent 100%),
+    linear-gradient(0deg, transparent 0%, #000 12%);
   -webkit-mask-composite: source-in;
   mask-image:
-    linear-gradient(90deg, #000 62%, transparent 100%),
-    linear-gradient(0deg, transparent 0%, #000 14%);
+    linear-gradient(90deg, #000 82%, transparent 100%),
+    linear-gradient(0deg, transparent 0%, #000 12%);
   mask-composite: intersect;
 }
 .hero__art img {
