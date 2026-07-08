@@ -238,9 +238,10 @@ function copyTune() {
 /* ------------------------------- HERO ------------------------------- */
 .hero {
   position: relative;
-  min-height: var(--hero-h, 80svh);
+  min-height: var(--hero-h, 78svh);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  padding-top: 6vh;
   overflow: hidden;
   background:
     radial-gradient(90% 80% at 22% 42%, rgba(168, 0, 32, 0.28), transparent 55%),
