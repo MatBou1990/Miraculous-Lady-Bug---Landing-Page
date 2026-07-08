@@ -453,7 +453,8 @@ function copyTune() {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    padding: 0 1.5rem 3rem;
+    min-height: auto; /* fit content — no empty gap before the signup */
+    padding: 0 1.5rem 2.5rem;
     text-align: center;
   }
   .hero__art {
