@@ -8,8 +8,8 @@ function scrollToSignup() {
 
 // ---- Live layout tuner (only visible with ?tune=1 in the URL) ----
 const tuning = computed(() => route.query.tune !== undefined)
-const artW = ref(56) // key-art width (% of viewport)
-const artX = ref(-6) // key-art horizontal offset (%)
+const artW = ref(64) // key-art width (% of viewport)
+const artX = ref(-4) // key-art horizontal offset (%)
 const artY = ref(0) // key-art vertical offset (%)
 const textScale = ref(1) // scale of the centered logo/tagline/CTA block
 
@@ -19,6 +19,42 @@ const heroStyle = computed(() => ({
   '--art-y': artY.value + '%',
   '--content-scale': String(textScale.value),
 }))
+
+const tuneSummary = computed(
+  () => `art-w:${artW.value}% x:${artX.value}% y:${artY.value}% text:${textScale.value}`,
+)
+const copied = ref(false)
+
+// Persist tuner values in the browser (only in ?tune=1 mode) so adjustments
+// survive a reload. The public site (no ?tune) always uses the baked defaults.
+onMounted(() => {
+  if (!tuning.value) return
+  try {
+    const s = JSON.parse(localStorage.getItem('heroTune') || 'null')
+    if (s) {
+      artW.value = s.artW ?? artW.value
+      artX.value = s.artX ?? artX.value
+      artY.value = s.artY ?? artY.value
+      textScale.value = s.textScale ?? textScale.value
+    }
+  } catch {}
+  watch([artW, artX, artY, textScale], () => {
+    try {
+      localStorage.setItem(
+        'heroTune',
+        JSON.stringify({ artW: artW.value, artX: artX.value, artY: artY.value, textScale: textScale.value }),
+      )
+    } catch {}
+  })
+})
+
+function copyTune() {
+  try {
+    navigator.clipboard?.writeText(tuneSummary.value)
+    copied.value = true
+    setTimeout(() => (copied.value = false), 1500)
+  } catch {}
+}
 </script>
 
 <template>
@@ -45,11 +81,15 @@ const heroStyle = computed(() => ({
       <label>Texte&nbsp;: {{ textScale }}×
         <input v-model.number="textScale" type="range" min="0.6" max="1.6" step="0.05" />
       </label>
-      <code>art-w:{{ artW }}% x:{{ artX }}% y:{{ artY }}% text:{{ textScale }}</code>
+      <code>{{ tuneSummary }}</code>
+      <button type="button" class="tuner__copy" @click="copyTune">
+        {{ copied ? 'Copié ✓' : 'Copier les valeurs' }}
+      </button>
     </div>
 
     <!-- ===================== HERO ===================== -->
     <section class="hero" :style="heroStyle">
+      <img class="hero__bug" src="/images/ladybug-icon.png" alt="" aria-hidden="true" />
       <div class="hero__glow" aria-hidden="true"></div>
 
       <!-- Key art (bottom-left) -->
@@ -168,6 +208,20 @@ const heroStyle = computed(() => ({
   color: var(--cream-dim);
   word-break: break-all;
 }
+.tuner__copy {
+  margin-top: 0.35rem;
+  padding: 0.45rem;
+  border: none;
+  border-radius: 8px;
+  background: var(--red);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.tuner__copy:hover {
+  background: #ff1f4a;
+}
 
 /* ------------------------------- HERO ------------------------------- */
 .hero {
@@ -179,6 +233,17 @@ const heroStyle = computed(() => ({
   background:
     radial-gradient(90% 80% at 22% 42%, rgba(168, 0, 32, 0.28), transparent 55%),
     linear-gradient(180deg, #140809 0%, var(--ink) 70%);
+}
+
+/* Miraculous ladybug emblem, top-left */
+.hero__bug {
+  position: absolute;
+  top: 1.3rem;
+  left: 1.5rem;
+  width: 58px;
+  height: auto;
+  z-index: 4;
+  filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.5));
 }
 
 /* Red "spotlight" sun-glow behind the art, echoing the key-art sun */
