@@ -8,12 +8,14 @@ function scrollToSignup() {
 
 // ---- Live layout tuner (only visible with ?tune=1 in the URL) ----
 const tuning = computed(() => route.query.tune !== undefined)
+const heroH = ref(80) // hero height (svh)
 const artW = ref(64) // key-art width (% of viewport)
 const artX = ref(-4) // key-art horizontal offset (%)
 const artY = ref(0) // key-art vertical offset (%)
 const textScale = ref(1) // scale of the centered logo/tagline/CTA block
 
 const heroStyle = computed(() => ({
+  '--hero-h': heroH.value + 'svh',
   '--art-w': artW.value + '%',
   '--art-x': artX.value + '%',
   '--art-y': artY.value + '%',
@@ -21,7 +23,7 @@ const heroStyle = computed(() => ({
 }))
 
 const tuneSummary = computed(
-  () => `art-w:${artW.value}% x:${artX.value}% y:${artY.value}% text:${textScale.value}`,
+  () => `hero-h:${heroH.value}svh art-w:${artW.value}% x:${artX.value}% y:${artY.value}% text:${textScale.value}`,
 )
 const copied = ref(false)
 
@@ -32,17 +34,24 @@ onMounted(() => {
   try {
     const s = JSON.parse(localStorage.getItem('heroTune') || 'null')
     if (s) {
+      heroH.value = s.heroH ?? heroH.value
       artW.value = s.artW ?? artW.value
       artX.value = s.artX ?? artX.value
       artY.value = s.artY ?? artY.value
       textScale.value = s.textScale ?? textScale.value
     }
   } catch {}
-  watch([artW, artX, artY, textScale], () => {
+  watch([heroH, artW, artX, artY, textScale], () => {
     try {
       localStorage.setItem(
         'heroTune',
-        JSON.stringify({ artW: artW.value, artX: artX.value, artY: artY.value, textScale: textScale.value }),
+        JSON.stringify({
+          heroH: heroH.value,
+          artW: artW.value,
+          artX: artX.value,
+          artY: artY.value,
+          textScale: textScale.value,
+        }),
       )
     } catch {}
   })
@@ -69,6 +78,9 @@ function copyTune() {
     <!-- Live layout tuner — add ?tune=1 to the URL to show it -->
     <div v-if="tuning" class="tuner">
       <strong>Réglages hero</strong>
+      <label>Hauteur&nbsp;: {{ heroH }}svh
+        <input v-model.number="heroH" type="range" min="45" max="100" />
+      </label>
       <label>Image&nbsp;: {{ artW }}%
         <input v-model.number="artW" type="range" min="20" max="80" />
       </label>
@@ -226,7 +238,7 @@ function copyTune() {
 /* ------------------------------- HERO ------------------------------- */
 .hero {
   position: relative;
-  min-height: 100svh;
+  min-height: var(--hero-h, 80svh);
   display: flex;
   align-items: center;
   overflow: hidden;
