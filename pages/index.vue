@@ -19,9 +19,9 @@ function scrollToSignup() {
     <section class="hero">
       <div class="hero__glow" aria-hidden="true"></div>
 
-      <!-- Key art (left) -->
+      <!-- Key art (bottom-left) -->
       <div class="hero__art" aria-hidden="true">
-        <img src="/images/keyart-0707-trans.png" alt="" />
+        <img src="/images/keyart-0808-trans.png" alt="" />
       </div>
 
       <!-- Content (right) -->
@@ -113,10 +113,10 @@ function scrollToSignup() {
 /* Red "spotlight" sun-glow behind the art, echoing the key-art sun */
 .hero__glow {
   position: absolute;
-  left: -10%;
-  top: 50%;
+  left: -12%;
+  top: 46%;
   transform: translateY(-50%);
-  width: 55%;
+  width: 56%;
   aspect-ratio: 1;
   background: radial-gradient(circle, rgba(228, 3, 46, 0.5) 0%, rgba(228, 3, 46, 0.12) 38%, transparent 66%);
   filter: blur(10px);
@@ -124,51 +124,44 @@ function scrollToSignup() {
   z-index: 0;
 }
 
-/* Key art on the LEFT, edge feathered into the dark with a gradient mask */
+/* Key art anchored BOTTOM-LEFT, right edge feathered into the dark */
 .hero__art {
   position: absolute;
-  left: -6%;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 52%;
-  max-width: 820px;
+  left: 0;
+  bottom: 0;
+  top: auto;
+  transform: none;
+  width: 46%;
+  max-width: 720px;
   z-index: 1;
-  filter: drop-shadow(0 40px 70px rgba(0, 0, 0, 0.55));
-  /* Slick dissolve on the right + a touch on the bottom, into the stage dark */
-  -webkit-mask-image:
-    linear-gradient(90deg, #000 82%, transparent 100%),
-    linear-gradient(0deg, transparent 0%, #000 12%);
-  -webkit-mask-composite: source-in;
-  mask-image:
-    linear-gradient(90deg, #000 82%, transparent 100%),
-    linear-gradient(0deg, transparent 0%, #000 12%);
-  mask-composite: intersect;
+  filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.5));
+  -webkit-mask-image: linear-gradient(90deg, #000 86%, transparent 100%);
+  mask-image: linear-gradient(90deg, #000 86%, transparent 100%);
 }
 .hero__art img {
   width: 100%;
   height: auto;
+  display: block;
 }
 
-/* Content pushed to the RIGHT */
+/* Content centered */
 .hero__content {
   position: relative;
   z-index: 2;
   max-width: 640px;
-  margin-left: auto;
-  text-align: right;
+  margin: 0 auto;
+  text-align: center;
 }
 .hero__logo {
-  width: min(78%, 460px);
-  margin-left: auto;
+  width: min(74%, 440px);
+  margin: 0 auto 1.5rem;
   filter: drop-shadow(0 6px 24px rgba(0, 0, 0, 0.6));
-  margin-bottom: 1.5rem;
 }
 .hero__tagline {
   font-size: clamp(1.1rem, 2.6vw, 1.6rem);
   color: var(--cream);
-  max-width: 22ch;
-  margin-left: auto;
-  margin-bottom: 2rem;
+  max-width: 26ch;
+  margin: 0 auto 2rem;
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
 }
 
