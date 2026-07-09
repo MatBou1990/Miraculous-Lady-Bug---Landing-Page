@@ -507,7 +507,7 @@ function copyTune() {
     opacity: 0.75;
   }
   .hero__content {
-    margin: -1.5rem auto 0;
+    margin: -4.5rem auto 0; /* pull logo/CTA up over the art's faded bottom */
     text-align: center;
   }
   .hero__logo {
