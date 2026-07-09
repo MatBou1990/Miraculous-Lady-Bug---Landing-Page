@@ -461,23 +461,28 @@ function copyTune() {
 @media (max-width: 859px) {
   .hero {
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     justify-content: flex-start;
     min-height: auto; /* fit content — no empty gap before the signup */
-    padding: 0 1.5rem 2.5rem;
+    padding: 0 0 2.5rem; /* no side padding so the art can bleed to the edge */
     text-align: center;
+  }
+  .hero__bug {
+    width: 42px; /* smaller emblem on mobile */
+    top: 1rem;
+    left: 1rem;
   }
   .hero__art {
     position: static;
     order: -1;
-    width: 100%;
-    max-width: 540px;
+    width: 100%; /* full-bleed: red flush to the left edge */
+    max-width: none;
     left: auto;
     top: auto;
     bottom: auto;
     transform: none;
     opacity: 1;
-    margin-top: 5.5rem; /* clear the toggle and the ladybug emblem */
+    margin-top: 5rem; /* clear the toggle and the ladybug emblem */
     filter: drop-shadow(0 24px 44px rgba(0, 0, 0, 0.55));
     /* Melt the bottom of the art into the content below */
     -webkit-mask-image: linear-gradient(180deg, #000 66%, transparent 100%);

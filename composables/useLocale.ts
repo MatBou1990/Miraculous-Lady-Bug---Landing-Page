@@ -15,9 +15,9 @@ const messages: Record<Locale, Dict> = {
     'signup.introTitleB': 'Miraculous',
     'signup.introText': "Soyez les premiers informés de l'ouverture de la billetterie.",
 
-    'form.title': 'Offrez à vos enfants un moment magique',
+    'form.title': 'Une soirée magique pour tous',
     'form.lead':
-      "Soyez informé·e en priorité de l'ouverture de la billetterie et préparez la sortie en famille à ne pas manquer.",
+      "Soyez informé·e en priorité de la billetterie, des dates et des contenus exclusifs du spectacle.",
     'form.firstName': 'Prénom',
     'form.firstNamePlaceholder': 'Votre prénom',
     'form.email': 'E-mail',
@@ -50,10 +50,10 @@ const messages: Record<Locale, Dict> = {
 
     'footer.legal': 'Mentions légales',
     'footer.privacy': 'Politique de confidentialité',
-    'footer.rights': 'TOUS DROITS RÉSERVÉS',
-    'footer.trademark': '© 2026 | Miraculous® est une marque déposée de MIRACULOUS CORP.',
+    'footer.rights': 'ALL RIGHTS RESERVED',
+    'footer.trademark': '© 2026 | Miraculous® is a registered trademark of MIRACULOUS CORP.',
     'footer.production':
-      '© 2026 | Miraculous Ladybug & Cat Noir — The Live Stage Spectacular, par MIRACULOUS CORP. & MONLOVE INTERNATIONAL',
+      '© 2026 | Miraculous Ladybug & Cat Noir The Live Stage Spectacular by MIRACULOUS CORP. & MONLOVE INTERNATIONAL',
   },
   en: {
     'hero.tagline': 'Your favourite heroes finally come to life on stage.',
@@ -65,9 +65,9 @@ const messages: Record<Locale, Dict> = {
     'signup.introTitleB': 'Miraculous',
     'signup.introText': 'Be the first to know when tickets go on sale.',
 
-    'form.title': 'Give your children a magical night out',
+    'form.title': 'A magical night out for everyone',
     'form.lead':
-      'Be the first to know when tickets go on sale, and plan the family outing not to be missed.',
+      'Be the first to know about tickets, dates and exclusive content from the show.',
     'form.firstName': 'First name',
     'form.firstNamePlaceholder': 'Your first name',
     'form.email': 'Email',
@@ -103,7 +103,7 @@ const messages: Record<Locale, Dict> = {
     'footer.rights': 'ALL RIGHTS RESERVED',
     'footer.trademark': '© 2026 | Miraculous® is a registered trademark of MIRACULOUS CORP.',
     'footer.production':
-      '© 2026 | Miraculous Ladybug & Cat Noir — The Live Stage Spectacular, by MIRACULOUS CORP. & MONLOVE INTERNATIONAL',
+      '© 2026 | Miraculous Ladybug & Cat Noir The Live Stage Spectacular by MIRACULOUS CORP. & MONLOVE INTERNATIONAL',
   },
 }
 
