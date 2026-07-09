@@ -153,8 +153,9 @@ function copyTune() {
           <span aria-hidden="true">·</span>
           <NuxtLink to="/confidentialite">{{ t('footer.privacy') }}</NuxtLink>
         </nav>
-        <p class="footer__license">{{ t('footer.license') }}</p>
-        <p>© {{ new Date().getFullYear() }} Miraculous — Le Spectacle Live. {{ t('footer.rights') }}</p>
+        <p class="footer__license">{{ t('footer.trademark') }}</p>
+        <p class="footer__license">{{ t('footer.production') }}</p>
+        <p class="footer__rights">{{ t('footer.rights') }}</p>
       </div>
     </footer>
   </div>
@@ -264,8 +265,9 @@ function copyTune() {
   left: 1.5rem;
   width: 58px;
   height: auto;
-  z-index: 4;
-  filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.5));
+  z-index: 6;
+  /* Dark halo so the emblem stays legible even over the red key art */
+  filter: drop-shadow(0 0 12px rgba(10, 5, 7, 0.95)) drop-shadow(0 3px 8px rgba(0, 0, 0, 0.55));
 }
 
 /* Red "spotlight" sun-glow behind the art, echoing the key-art sun */
@@ -435,10 +437,16 @@ function copyTune() {
 }
 .footer__license {
   max-width: 60ch;
-  margin: 0 auto 0.6rem;
+  margin: 0 auto 0.35rem;
   font-size: 0.72rem;
   line-height: 1.5;
   color: rgba(203, 192, 174, 0.4);
+}
+.footer__rights {
+  margin-top: 0.6rem;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+  color: rgba(203, 192, 174, 0.55);
 }
 
 /* ---------------------------- RESPONSIVE ---------------------------- */
@@ -469,7 +477,7 @@ function copyTune() {
     bottom: auto;
     transform: none;
     opacity: 1;
-    margin-top: 3.5rem; /* clear the language toggle */
+    margin-top: 5.5rem; /* clear the toggle and the ladybug emblem */
     filter: drop-shadow(0 24px 44px rgba(0, 0, 0, 0.55));
     /* Melt the bottom of the art into the content below */
     -webkit-mask-image: linear-gradient(180deg, #000 66%, transparent 100%);

@@ -11,10 +11,9 @@ const messages: Record<Locale, Dict> = {
     'hero.logoAlt': 'Miraculous : Ladybug & Cat Noir — Le Spectacle Live',
     'hero.scrollAria': "Aller à l'inscription",
 
-    'signup.introTitleA': 'Soyez aux',
-    'signup.introTitleB': 'premières loges',
-    'signup.introText':
-      "Inscrivez-vous pour recevoir en avant-première les dates, l'ouverture de la billetterie et les secrets de fabrication du spectacle.",
+    'signup.introTitleA': 'Be',
+    'signup.introTitleB': 'Miraculous',
+    'signup.introText': "Soyez les premiers informés de l'ouverture de la billetterie.",
 
     'form.title': 'Offrez à vos enfants un moment magique',
     'form.lead':
@@ -31,11 +30,11 @@ const messages: Record<Locale, Dict> = {
     'form.dialCode': 'Indicatif',
     'form.optional': '(optionnel)',
     'form.emailConsent':
-      "J'accepte de recevoir par e-mail les actualités et offres du spectacle pour préparer notre sortie en famille.",
-    'form.smsConsent': "J'accepte de recevoir des informations sur le spectacle par SMS.",
+      "J'accepte de recevoir par e-mail les actualités, mises à jour, offres et contenus exclusifs liés au spectacle, y compris les coulisses, contenus spéciaux, documentaires et expériences associées.",
+    'form.smsConsent':
+      "J'accepte de recevoir par SMS des informations, mises à jour, offres et contenus exclusifs liés au spectacle. En fournissant votre numéro, vous acceptez de recevoir des SMS concernant le spectacle et les expériences associées. Des frais de message et de données peuvent s'appliquer. Répondez STOP pour vous désinscrire.",
     'form.age': "Je confirme avoir 16 ans ou plus.",
-    'form.smsNote':
-      "En indiquant votre numéro, vous acceptez de recevoir des SMS relatifs au spectacle. Des frais peuvent s'appliquer. Répondez STOP pour vous désinscrire.",
+    'form.smsNote': '',
     'form.submit': 'Je m’inscris',
     'form.submitting': 'Un instant…',
     'form.legalPre':
@@ -51,9 +50,10 @@ const messages: Record<Locale, Dict> = {
 
     'footer.legal': 'Mentions légales',
     'footer.privacy': 'Politique de confidentialité',
-    'footer.rights': 'Tous droits réservés.',
-    'footer.license':
-      '© [Année] [Titulaire de licence — à compléter]. Miraculous™ et tous les personnages associés sont des marques de leurs détenteurs respectifs. Utilisé sous licence.',
+    'footer.rights': 'TOUS DROITS RÉSERVÉS',
+    'footer.trademark': '© 2026 | Miraculous® est une marque déposée de MIRACULOUS CORP.',
+    'footer.production':
+      '© 2026 | Miraculous Ladybug & Cat Noir — The Live Stage Spectacular, par MIRACULOUS CORP. & MONLOVE INTERNATIONAL',
   },
   en: {
     'hero.tagline': 'Your favourite heroes finally come to life on stage.',
@@ -61,10 +61,9 @@ const messages: Record<Locale, Dict> = {
     'hero.logoAlt': 'Miraculous: Ladybug & Cat Noir — The Live Stage Spectacular',
     'hero.scrollAria': 'Go to sign-up',
 
-    'signup.introTitleA': "Don't miss",
-    'signup.introTitleB': 'the curtain rising',
-    'signup.introText':
-      'Sign up to be the first to hear about dates, on-sale times and behind-the-scenes secrets of the show.',
+    'signup.introTitleA': 'Be',
+    'signup.introTitleB': 'Miraculous',
+    'signup.introText': 'Be the first to know when tickets go on sale.',
 
     'form.title': 'Give your children a magical night out',
     'form.lead':
@@ -81,11 +80,11 @@ const messages: Record<Locale, Dict> = {
     'form.dialCode': 'Dialing code',
     'form.optional': '(optional)',
     'form.emailConsent':
-      'I agree to receive news and offers about the show by email to plan our family outing.',
-    'form.smsConsent': 'I agree to receive information about the show by SMS.',
+      'I agree to receive news, updates, offers, and exclusive content related to the show, including behind-the-scenes materials, special features, documentaries, and related experiences by email.',
+    'form.smsConsent':
+      'I agree to receive information, updates, offers, and exclusive content related to the show by SMS. By providing your number, you agree to receive SMS communications about the show and related experiences. Message and data rates may apply. Reply STOP to opt out.',
     'form.age': 'I confirm I am 16 or older.',
-    'form.smsNote':
-      'By providing your number, you agree to receive SMS about the show. Message rates may apply. Reply STOP to opt out.',
+    'form.smsNote': '',
     'form.submit': 'Sign me up',
     'form.submitting': 'One moment…',
     'form.legalPre':
@@ -101,9 +100,10 @@ const messages: Record<Locale, Dict> = {
 
     'footer.legal': 'Legal notice',
     'footer.privacy': 'Privacy policy',
-    'footer.rights': 'All rights reserved.',
-    'footer.license':
-      '© [Year] [Licence holder — to complete]. Miraculous™ and all related characters are trademarks of their respective owners. Used under licence.',
+    'footer.rights': 'ALL RIGHTS RESERVED',
+    'footer.trademark': '© 2026 | Miraculous® is a registered trademark of MIRACULOUS CORP.',
+    'footer.production':
+      '© 2026 | Miraculous Ladybug & Cat Noir — The Live Stage Spectacular, by MIRACULOUS CORP. & MONLOVE INTERNATIONAL',
   },
 }
 

@@ -147,7 +147,6 @@ async function submit() {
         <input v-model="smsConsent" type="checkbox" />
         <span>{{ t('form.smsConsent') }}</span>
       </label>
-      <p class="sms-note">{{ t('form.smsNote') }}</p>
 
       <label class="check check--required">
         <input v-model="ageConfirmed" type="checkbox" />
