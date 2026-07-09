@@ -408,8 +408,9 @@ function copyTune() {
 }
 .signup-section__text {
   color: var(--cream-dim);
-  font-size: 1.05rem;
-  max-width: 40ch;
+  font-size: clamp(0.98rem, 1.1vw, 1.3rem);
+  /* No fixed cap: one line where there's room, wraps naturally when narrow */
+  max-width: none;
 }
 
 /* ------------------------------ FOOTER ------------------------------ */
@@ -514,8 +515,12 @@ function copyTune() {
   .hero__tagline {
     margin-inline: auto;
   }
-  .scroll-hint {
-    display: none;
+  /* Less gap before the signup section; "Be Miraculous" sits higher */
+  .signup-section {
+    padding-top: 2rem;
+  }
+  .signup-section__inner {
+    gap: 1.75rem;
   }
 }
 </style>
