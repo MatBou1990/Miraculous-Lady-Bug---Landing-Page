@@ -400,12 +400,11 @@ function copyTune() {
   align-items: center;
 }
 .signup-section__title {
-  font-size: clamp(1.6rem, 3.5vw, 3.4rem);
-  line-height: 1.05;
+  font-size: clamp(1.25rem, 2.2vw, 2.1rem);
+  line-height: 1.1;
   color: var(--red);
   text-transform: uppercase;
   margin-bottom: 1rem;
-  white-space: nowrap; /* keep each line (e.g. "the curtain rising") unbroken */
 }
 .signup-section__text {
   color: var(--cream-dim);
