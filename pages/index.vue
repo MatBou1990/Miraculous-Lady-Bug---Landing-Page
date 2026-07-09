@@ -291,9 +291,9 @@ function copyTune() {
   left: 0;
   bottom: 0;
   top: auto;
-  transform: translate(var(--art-x, -3%), var(--art-y, 0%));
-  /* Fluid: scales smoothly from small laptops to ultrawide */
-  width: var(--art-w, clamp(320px, 44vw, 900px));
+  transform: translate(var(--art-x, -4%), var(--art-y, 0%));
+  /* Larger: characters read bigger and the red curtain reaches the top */
+  width: var(--art-w, clamp(440px, 60vw, 1150px));
   z-index: 1;
   filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.5));
   -webkit-mask-image: linear-gradient(90deg, #000 86%, transparent 100%);
