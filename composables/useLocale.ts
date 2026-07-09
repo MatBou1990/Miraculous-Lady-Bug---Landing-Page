@@ -7,7 +7,7 @@ type Dict = Record<string, string>
 const messages: Record<Locale, Dict> = {
   fr: {
     'hero.tagline': 'Vos héros préférés prennent enfin vie sur scène.',
-    'hero.cta': "J'en suis",
+    'hero.cta': "Je m'inscris",
     'hero.logoAlt': 'Miraculous : Ladybug & Cat Noir — Le Spectacle Live',
     'hero.scrollAria': "Aller à l'inscription",
 
