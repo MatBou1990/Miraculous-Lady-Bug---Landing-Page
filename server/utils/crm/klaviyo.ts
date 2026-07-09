@@ -27,7 +27,11 @@ export function createKlaviyoProvider(apiKey: string): CrmProvider {
 
     const attributes: Record<string, unknown> = {
       email: contact.email,
-      location: { country: contact.country, zip: contact.postalCode || null },
+      location: {
+        city: contact.city,
+        country: contact.country || null,
+        zip: contact.postalCode || null,
+      },
       properties,
     }
     if (contact.firstName) attributes.first_name = contact.firstName

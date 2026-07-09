@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { sortedCountries, countries } from '~/utils/countries'
+import { sortedCountries } from '~/utils/countries'
+import { cities } from '~/utils/cities'
 
 const { t, locale } = useLocale()
 const route = useRoute()
@@ -10,15 +11,15 @@ const errorMsg = ref('')
 
 const firstName = ref('')
 const email = ref('')
-const country = ref('') // ISO alpha-2, required
-const postalCode = ref('')
+const city = ref('') // required — targeted city or "Other"
+const postalCode = ref('') // required
 const dialCode = ref('+33')
 const phone = ref('')
 const emailConsent = ref(false)
 const smsConsent = ref(false)
 const ageConfirmed = ref(false)
 
-const countryOptions = computed(() => sortedCountries(locale.value))
+const dialOptions = computed(() => sortedCountries(locale.value))
 const emailValid = computed(() => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim()))
 
 // UTM attribution captured from the landing URL, forwarded with the contact.
@@ -28,16 +29,11 @@ const utm = {
   campaign: (route.query.utm_campaign as string) || '',
 }
 
-// Default the dialing code to the selected country.
-watch(country, (code) => {
-  const c = countries.find((x) => x.code === code)
-  if (c) dialCode.value = c.dial
-})
-
 async function submit() {
   errorMsg.value = ''
   if (!emailValid.value) return void (errorMsg.value = t('form.errEmail'))
-  if (!country.value) return void (errorMsg.value = t('form.errCountry'))
+  if (!city.value) return void (errorMsg.value = t('form.errCity'))
+  if (!postalCode.value.trim()) return void (errorMsg.value = t('form.errPostal'))
   if (!ageConfirmed.value) return void (errorMsg.value = t('form.errAge'))
 
   loading.value = true
@@ -47,7 +43,7 @@ async function submit() {
       body: {
         firstName: firstName.value,
         email: email.value,
-        country: country.value,
+        city: city.value,
         postalCode: postalCode.value,
         phone: phone.value.trim() ? `${dialCode.value} ${phone.value.trim()}` : '',
         emailConsent: emailConsent.value,
@@ -99,21 +95,21 @@ async function submit() {
       </div>
 
       <div class="field">
-        <label for="country">{{ t('form.country') }} <span class="req">*</span></label>
-        <select id="country" v-model="country" required class="select" :class="{ empty: !country }">
-          <option value="" disabled>{{ t('form.countryPlaceholder') }}</option>
-          <option v-for="c in countryOptions" :key="c.code" :value="c.code">
-            {{ locale === 'fr' ? c.fr : c.en }}
-          </option>
+        <label for="city">{{ t('form.city') }} <span class="req">*</span></label>
+        <select id="city" v-model="city" required class="select" :class="{ empty: !city }">
+          <option value="" disabled>{{ t('form.cityPlaceholder') }}</option>
+          <option v-for="c in cities" :key="c" :value="c">{{ c }}</option>
+          <option value="Other">{{ t('form.cityOther') }}</option>
         </select>
       </div>
 
       <div class="field">
-        <label for="postalCode">{{ t('form.postalCode') }} <span class="opt">{{ t('form.optional') }}</span></label>
+        <label for="postalCode">{{ t('form.postalCode') }} <span class="req">*</span></label>
         <input
           id="postalCode"
           v-model="postalCode"
           type="text"
+          required
           inputmode="numeric"
           autocomplete="postal-code"
           placeholder="75001"
@@ -124,7 +120,7 @@ async function submit() {
         <label for="phone">{{ t('form.phone') }} <span class="opt">{{ t('form.optional') }}</span></label>
         <div class="phone-group">
           <select v-model="dialCode" class="select dial" :aria-label="t('form.dialCode')">
-            <option v-for="c in countryOptions" :key="c.code" :value="c.dial">
+            <option v-for="c in dialOptions" :key="c.code" :value="c.dial">
               {{ c.code }} {{ c.dial }}
             </option>
           </select>

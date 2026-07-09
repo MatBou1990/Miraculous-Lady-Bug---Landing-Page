@@ -12,12 +12,13 @@ export function createBrevoProvider(apiKey: string, listId?: number): CrmProvide
     name: 'brevo',
     async upsertContact(contact: CrmContact): Promise<void> {
       const attributes: Record<string, unknown> = {
-        PAYS: contact.country,
+        VILLE: contact.city,
         OPT_IN_EMAIL: contact.emailConsent,
         OPT_IN_SMS: contact.smsConsent,
         DATE_INSCRIPTION: contact.signupDate,
       }
       if (contact.firstName) attributes.PRENOM = contact.firstName
+      if (contact.country) attributes.PAYS = contact.country
       if (contact.postalCode) attributes.CODE_POSTAL = contact.postalCode
       if (contact.phone) attributes.SMS = contact.phone
       if (contact.emailConsentDate) attributes.OPT_IN_EMAIL_DATE = contact.emailConsentDate

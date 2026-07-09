@@ -5,9 +5,11 @@
 export interface CrmContact {
   email: string
   firstName?: string
-  /** ISO 3166-1 alpha-2 country code, e.g. "FR", "US". Required. */
-  country: string
+  /** Targeted city the contact wants the show in (or "Other"). Required. */
+  city: string
   postalCode?: string
+  /** Optional ISO country (not collected on the form anymore). */
+  country?: string
   /** Phone in international form (with dialing code), if provided. */
   phone?: string
   emailConsent: boolean

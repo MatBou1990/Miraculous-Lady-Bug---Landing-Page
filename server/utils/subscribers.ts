@@ -5,7 +5,8 @@ import { getSql, ensureSchema } from './db'
 export interface SubscriberInput {
   email: string
   firstName?: string
-  country: string
+  city: string
+  country?: string
   postalCode?: string
   phone?: string
   emailConsent: boolean
@@ -25,18 +26,19 @@ export async function upsertSubscriber(input: SubscriberInput): Promise<number> 
   const db = getSql()
   const rows = await db<{ id: number }[]>`
     INSERT INTO subscribers (
-      email, first_name, country, postal_code, phone,
+      email, first_name, city, country, postal_code, phone,
       email_consent, email_consent_at, sms_consent, sms_consent_at,
       age_confirmed, utm_source, utm_medium, utm_campaign, ip, crm_synced
     ) VALUES (
-      ${input.email}, ${input.firstName ?? null}, ${input.country}, ${input.postalCode ?? null}, ${input.phone ?? null},
+      ${input.email}, ${input.firstName ?? null}, ${input.city}, ${input.country ?? null}, ${input.postalCode ?? null}, ${input.phone ?? null},
       ${input.emailConsent}, ${input.emailConsentAt ?? null}, ${input.smsConsent}, ${input.smsConsentAt ?? null},
       ${input.ageConfirmed}, ${input.utmSource ?? null}, ${input.utmMedium ?? null}, ${input.utmCampaign ?? null},
       ${input.ip ?? null}, false
     )
     ON CONFLICT (email) DO UPDATE SET
       first_name       = COALESCE(EXCLUDED.first_name, subscribers.first_name),
-      country          = EXCLUDED.country,
+      city             = EXCLUDED.city,
+      country          = COALESCE(EXCLUDED.country, subscribers.country),
       postal_code      = COALESCE(EXCLUDED.postal_code, subscribers.postal_code),
       phone            = COALESCE(EXCLUDED.phone, subscribers.phone),
       email_consent    = EXCLUDED.email_consent,

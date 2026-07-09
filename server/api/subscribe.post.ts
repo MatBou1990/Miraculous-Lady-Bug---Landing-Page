@@ -19,7 +19,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 interface SubscribeBody {
   email?: string
   firstName?: string
-  country?: string
+  city?: string
   postalCode?: string
   phone?: string
   emailConsent?: boolean
@@ -38,9 +38,14 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, statusMessage: 'Une adresse e-mail valide est requise.' })
   }
 
-  const country = (body?.country || '').trim().toUpperCase()
-  if (!country) {
-    throw createError({ statusCode: 400, statusMessage: 'Le pays est requis.' })
+  const city = (body?.city || '').trim()
+  if (!city) {
+    throw createError({ statusCode: 400, statusMessage: 'La ville est requise.' })
+  }
+
+  const postalCode = (body?.postalCode || '').trim()
+  if (!postalCode) {
+    throw createError({ statusCode: 400, statusMessage: 'Le code postal est requis.' })
   }
 
   if (body?.ageConfirmed !== true) {
@@ -60,8 +65,8 @@ export default defineEventHandler(async (event) => {
   const subscriber: SubscriberInput = {
     email,
     firstName: body.firstName?.trim() || undefined,
-    country,
-    postalCode: body.postalCode?.trim() || undefined,
+    city,
+    postalCode,
     phone,
     emailConsent,
     emailConsentAt: emailConsent ? now : undefined,
@@ -88,8 +93,8 @@ export default defineEventHandler(async (event) => {
   const contact: CrmContact = {
     email,
     firstName: subscriber.firstName,
-    country,
-    postalCode: subscriber.postalCode,
+    city,
+    postalCode,
     phone,
     emailConsent,
     emailConsentDate: subscriber.emailConsentAt,
@@ -108,7 +113,7 @@ export default defineEventHandler(async (event) => {
     // SMS goes to its own platform only when consented; skip the second call
     // if it's the same platform as email (already covered above).
     if (smsConsent && phone) {
-      const smsProvider = getSmsProvider(country)
+      const smsProvider = getSmsProvider()
       if (smsProvider.name !== emailProvider.name) {
         await smsProvider.upsertContact(contact)
       }
