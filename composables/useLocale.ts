@@ -15,7 +15,7 @@ const messages: Record<Locale, Dict> = {
     'signup.introTitleB': 'Miraculous',
     'signup.introText': "Soyez les premiers informés de l'ouverture de la billetterie.",
 
-    'form.title': 'Une soirée magique pour tout le monde',
+    'form.title': "Rejoignez l'aventure",
     'form.lead':
       "Soyez informé·e en priorité de la billetterie, des dates et des contenus exclusifs du spectacle.",
     'form.firstName': 'Prénom',
