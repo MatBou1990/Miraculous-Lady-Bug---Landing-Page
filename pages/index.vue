@@ -291,10 +291,9 @@ function copyTune() {
   left: 0;
   bottom: 0;
   top: auto;
-  transform: translate(var(--art-x, -5%), var(--art-y, 0%));
-  /* Larger: characters read bigger and the red curtain reaches the top,
-     staying anchored at the bottom (no gap) */
-  width: var(--art-w, clamp(480px, 72vw, 1350px));
+  transform: translate(var(--art-x, -4%), var(--art-y, 0%));
+  /* Characters read bigger and the red curtain reaches the top */
+  width: var(--art-w, clamp(440px, 60vw, 1150px));
   z-index: 1;
   filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.5));
   -webkit-mask-image: linear-gradient(90deg, #000 86%, transparent 100%);
@@ -485,8 +484,10 @@ function copyTune() {
   .hero__art {
     position: static;
     order: -1;
-    width: 100%; /* full-bleed: red flush to the left edge */
+    width: 132%; /* enlarge so the red curtain fills more of the top */
     max-width: none;
+    align-self: start;
+    margin-left: -18%; /* keep the red flush left, characters toward centre */
     left: auto;
     top: auto;
     bottom: auto;
