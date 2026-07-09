@@ -354,6 +354,7 @@ function copyTune() {
 }
 
 .scroll-hint {
+  display: none; /* removed: overlapped the CTA on the compact hero */
   position: absolute;
   left: 50%;
   bottom: 1.5rem;
@@ -399,7 +400,8 @@ function copyTune() {
   align-items: center;
 }
 .signup-section__title {
-  font-size: clamp(2.2rem, 7vw, 3.8rem);
+  font-size: clamp(2.6rem, 7vw, 5.2rem);
+  line-height: 1;
   color: var(--red);
   text-transform: uppercase;
   margin-bottom: 1rem;
@@ -454,6 +456,12 @@ function copyTune() {
   .signup-section__inner {
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
+    align-items: start; /* Be Miraculous sits higher, aligned to the top */
+  }
+  /* Tagline on a single line on desktop */
+  .hero__tagline {
+    max-width: none;
+    white-space: nowrap;
   }
 }
 
@@ -468,9 +476,9 @@ function copyTune() {
     text-align: center;
   }
   .hero__bug {
-    width: 42px; /* smaller emblem on mobile */
-    top: 1rem;
-    left: 1rem;
+    width: 34px; /* match the visual weight of the FR/EN toggle */
+    top: 1.1rem;
+    left: 1.1rem;
   }
   .hero__art {
     position: static;
