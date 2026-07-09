@@ -409,8 +409,7 @@ function copyTune() {
 .signup-section__text {
   color: var(--cream-dim);
   font-size: clamp(0.98rem, 1.1vw, 1.3rem);
-  /* No fixed cap: one line where there's room, wraps naturally when narrow */
-  max-width: none;
+  max-width: 46ch; /* tidy paragraph; wraps responsively */
 }
 
 /* ------------------------------ FOOTER ------------------------------ */

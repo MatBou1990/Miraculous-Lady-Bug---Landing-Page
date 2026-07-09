@@ -11,9 +11,10 @@ const messages: Record<Locale, Dict> = {
     'hero.logoAlt': 'Miraculous : Ladybug & Cat Noir — Le Spectacle Live',
     'hero.scrollAria': "Aller à l'inscription",
 
-    'signup.introTitleA': 'Be',
-    'signup.introTitleB': 'Miraculous',
-    'signup.introText': "Soyez les premiers informés de l'ouverture de la billetterie.",
+    'signup.introTitleA': 'Soyez aux',
+    'signup.introTitleB': 'premières loges',
+    'signup.introText':
+      "Inscrivez-vous pour être les premiers informés des dates, de l'ouverture de la billetterie et des coulisses du spectacle.",
 
     'form.title': "Rejoignez l'aventure",
     'form.lead':
@@ -61,9 +62,10 @@ const messages: Record<Locale, Dict> = {
     'hero.logoAlt': 'Miraculous: Ladybug & Cat Noir — The Live Stage Spectacular',
     'hero.scrollAria': 'Go to sign-up',
 
-    'signup.introTitleA': 'Be',
-    'signup.introTitleB': 'Miraculous',
-    'signup.introText': 'Be the first to know when tickets go on sale.',
+    'signup.introTitleA': "Don't miss",
+    'signup.introTitleB': 'the curtain rising',
+    'signup.introText':
+      'Sign up to be the first to hear about dates, on-sale times and behind-the-scenes secrets of the show.',
 
     'form.title': 'Join the adventure',
     'form.lead':
