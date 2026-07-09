@@ -291,9 +291,10 @@ function copyTune() {
   left: 0;
   bottom: 0;
   top: auto;
-  transform: translate(var(--art-x, -4%), var(--art-y, 0%));
-  /* Larger: characters read bigger and the red curtain reaches the top */
-  width: var(--art-w, clamp(440px, 60vw, 1150px));
+  transform: translate(var(--art-x, -5%), var(--art-y, 0%));
+  /* Larger: characters read bigger and the red curtain reaches the top,
+     staying anchored at the bottom (no gap) */
+  width: var(--art-w, clamp(480px, 72vw, 1350px));
   z-index: 1;
   filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.5));
   -webkit-mask-image: linear-gradient(90deg, #000 86%, transparent 100%);
@@ -491,7 +492,7 @@ function copyTune() {
     bottom: auto;
     transform: none;
     opacity: 1;
-    margin-top: 5rem; /* clear the toggle and the ladybug emblem */
+    margin-top: 0; /* red curtain reaches the very top on mobile too */
     filter: drop-shadow(0 24px 44px rgba(0, 0, 0, 0.55));
     /* Melt the bottom of the art into the content below */
     -webkit-mask-image: linear-gradient(180deg, #000 66%, transparent 100%);
