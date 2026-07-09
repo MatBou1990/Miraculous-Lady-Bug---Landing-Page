@@ -108,7 +108,8 @@ function copyTune() {
     </div>
 
     <!-- ===================== HERO ===================== -->
-    <section class="hero" :style="heroStyle">
+    <!-- Public site uses the fluid CSS defaults; ?tune=1 overrides them live -->
+    <section class="hero" :style="tuning ? heroStyle : undefined">
       <img class="hero__bug" src="/images/ladybug-icon.png" alt="" aria-hidden="true" />
       <div class="hero__glow" aria-hidden="true"></div>
 
@@ -246,10 +247,10 @@ function copyTune() {
 /* ------------------------------- HERO ------------------------------- */
 .hero {
   position: relative;
-  min-height: var(--hero-h, 78svh);
+  min-height: var(--hero-h, 72svh);
   display: flex;
   align-items: flex-start;
-  padding-top: var(--hero-pt, 8vh);
+  padding-top: var(--hero-pt, 7vh);
   overflow: hidden;
   background:
     radial-gradient(90% 80% at 22% 42%, rgba(168, 0, 32, 0.28), transparent 55%),
@@ -288,9 +289,9 @@ function copyTune() {
   left: 0;
   bottom: 0;
   top: auto;
-  transform: translate(var(--art-x, 0%), var(--art-y, 0%));
-  width: var(--art-w, 56%);
-  max-width: 1000px;
+  transform: translate(var(--art-x, -3%), var(--art-y, 0%));
+  /* Fluid: scales smoothly from small laptops to ultrawide */
+  width: var(--art-w, clamp(320px, 44vw, 900px));
   z-index: 1;
   filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.5));
   -webkit-mask-image: linear-gradient(90deg, #000 86%, transparent 100%);
@@ -306,21 +307,22 @@ function copyTune() {
 .hero__content {
   position: relative;
   z-index: 2;
-  max-width: 640px;
+  width: 100%;
+  max-width: clamp(560px, 46vw, 900px);
   margin: 0 auto;
   text-align: center;
   transform: scale(var(--content-scale, 1));
   transform-origin: top center;
 }
 .hero__logo {
-  width: min(74%, 440px);
+  width: clamp(260px, 30vw, 600px);
   margin: 0 auto 1.5rem;
   filter: drop-shadow(0 6px 24px rgba(0, 0, 0, 0.6));
 }
 .hero__tagline {
-  font-size: clamp(1.1rem, 2.6vw, 1.6rem);
+  font-size: clamp(1.05rem, 1.5vw, 1.7rem);
   color: var(--cream);
-  max-width: 26ch;
+  max-width: 30ch;
   margin: 0 auto 2rem;
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
 }
