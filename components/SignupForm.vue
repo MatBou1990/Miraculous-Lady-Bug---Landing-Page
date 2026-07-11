@@ -1,6 +1,15 @@
 <script setup lang="ts">
 import { sortedCountries } from '~/utils/countries'
-import { cities } from '~/utils/cities'
+
+// Mirrors the shape returned by GET /api/city-search (kept local to avoid a
+// client→server type import across Nuxt's split tsconfigs).
+interface CitySuggestion {
+  label: string
+  city: string
+  country?: string
+  countryCode?: string
+  state?: string
+}
 
 const { t, locale } = useLocale()
 const route = useRoute()
@@ -11,8 +20,9 @@ const errorMsg = ref('')
 
 const firstName = ref('')
 const email = ref('')
-const city = ref('') // required — targeted city or "Other"
-const postalCode = ref('') // required
+const cityQuery = ref('') // what the user typed in the city field
+const city = ref('') // required — normalised city name (set on pick, or free-text fallback)
+const cityCountry = ref('') // country that came with the picked city
 const dialCode = ref('+33')
 const phone = ref('')
 const emailConsent = ref(false)
@@ -21,6 +31,53 @@ const ageConfirmed = ref(false)
 
 const dialOptions = computed(() => sortedCountries(locale.value))
 const emailValid = computed(() => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim()))
+
+// ---- City autocomplete (server-proxied Places provider) ----
+const suggestions = ref<CitySuggestion[]>([])
+const showSuggest = ref(false)
+let debounceTimer: ReturnType<typeof setTimeout> | undefined
+let reqSeq = 0
+
+function onCityInput() {
+  // Any edit invalidates a previously picked city until they choose again.
+  city.value = ''
+  cityCountry.value = ''
+  const q = cityQuery.value.trim()
+  clearTimeout(debounceTimer)
+  if (q.length < 2) {
+    suggestions.value = []
+    showSuggest.value = false
+    return
+  }
+  debounceTimer = setTimeout(() => fetchCities(q), 220)
+}
+
+async function fetchCities(q: string) {
+  const seq = ++reqSeq
+  try {
+    const res = await $fetch<CitySuggestion[]>('/api/city-search', {
+      params: { q, lang: locale.value },
+    })
+    if (seq !== reqSeq) return // a newer keystroke already fired; drop stale result
+    suggestions.value = res
+    showSuggest.value = res.length > 0
+  } catch {
+    // Autocomplete is best-effort; free-text fallback still lets them submit.
+  }
+}
+
+function pickCity(s: CitySuggestion) {
+  city.value = s.city
+  cityCountry.value = s.country || ''
+  cityQuery.value = s.label
+  suggestions.value = []
+  showSuggest.value = false
+}
+
+function onCityBlur() {
+  // Delay so a mousedown on a suggestion registers before the list hides.
+  setTimeout(() => (showSuggest.value = false), 150)
+}
 
 // UTM attribution captured from the landing URL, forwarded with the contact.
 const utm = {
@@ -31,9 +88,11 @@ const utm = {
 
 async function submit() {
   errorMsg.value = ''
+  // Free-text fallback: if they typed a city but never picked a suggestion,
+  // submit the raw text (country stays empty) rather than blocking them.
+  if (!city.value && cityQuery.value.trim()) city.value = cityQuery.value.trim()
   if (!emailValid.value) return void (errorMsg.value = t('form.errEmail'))
   if (!city.value) return void (errorMsg.value = t('form.errCity'))
-  if (!postalCode.value.trim()) return void (errorMsg.value = t('form.errPostal'))
   if (!ageConfirmed.value) return void (errorMsg.value = t('form.errAge'))
 
   loading.value = true
@@ -44,7 +103,7 @@ async function submit() {
         firstName: firstName.value,
         email: email.value,
         city: city.value,
-        postalCode: postalCode.value,
+        country: cityCountry.value,
         phone: phone.value.trim() ? `${dialCode.value} ${phone.value.trim()}` : '',
         emailConsent: emailConsent.value,
         smsConsent: smsConsent.value,
@@ -94,26 +153,33 @@ async function submit() {
         />
       </div>
 
-      <div class="field">
+      <div class="field city-field">
         <label for="city">{{ t('form.city') }} <span class="req">*</span></label>
-        <select id="city" v-model="city" required class="select" :class="{ empty: !city }">
-          <option value="" disabled>{{ t('form.cityPlaceholder') }}</option>
-          <option v-for="c in cities" :key="c" :value="c">{{ c }}</option>
-          <option value="Other">{{ t('form.cityOther') }}</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label for="postalCode">{{ t('form.postalCode') }} <span class="req">*</span></label>
         <input
-          id="postalCode"
-          v-model="postalCode"
+          id="city"
+          v-model="cityQuery"
           type="text"
           required
-          inputmode="numeric"
-          autocomplete="postal-code"
-          placeholder="75001"
+          autocomplete="off"
+          role="combobox"
+          aria-autocomplete="list"
+          :aria-expanded="showSuggest"
+          :placeholder="t('form.cityPlaceholder')"
+          @input="onCityInput"
+          @focus="showSuggest = suggestions.length > 0"
+          @blur="onCityBlur"
         />
+        <ul v-if="showSuggest" class="suggest" role="listbox">
+          <li
+            v-for="s in suggestions"
+            :key="s.label"
+            class="suggest__item"
+            role="option"
+            @mousedown.prevent="pickCity(s)"
+          >
+            {{ s.label }}
+          </li>
+        </ul>
       </div>
 
       <div class="field">
@@ -250,6 +316,37 @@ async function submit() {
 }
 .select option {
   color: #111;
+}
+
+/* City autocomplete */
+.city-field {
+  position: relative;
+}
+.suggest {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 0.25rem;
+  list-style: none;
+  background: var(--ink-panel);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 10px;
+  box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.9);
+  max-height: 240px;
+  overflow-y: auto;
+}
+.suggest__item {
+  padding: 0.6rem 0.75rem;
+  border-radius: 7px;
+  color: var(--cream);
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+.suggest__item:hover {
+  background: rgba(228, 3, 46, 0.18);
 }
 
 .phone-group {

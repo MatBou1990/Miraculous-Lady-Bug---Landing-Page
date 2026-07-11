@@ -9,7 +9,7 @@
  *    On CRM failure the DB record stays with crm_synced = false for later
  *    resynchronisation — the request still succeeds.
  *
- * Required: valid email, country, age confirmation (16+).
+ * Required: valid email, city, age confirmation (16+).
  */
 import { getEmailProvider, getSmsProvider, type CrmContact } from '../utils/crm'
 import { upsertSubscriber, markCrmSynced, type SubscriberInput } from '../utils/subscribers'
@@ -20,7 +20,7 @@ interface SubscribeBody {
   email?: string
   firstName?: string
   city?: string
-  postalCode?: string
+  country?: string
   phone?: string
   emailConsent?: boolean
   smsConsent?: boolean
@@ -43,10 +43,7 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, statusMessage: 'La ville est requise.' })
   }
 
-  const postalCode = (body?.postalCode || '').trim()
-  if (!postalCode) {
-    throw createError({ statusCode: 400, statusMessage: 'Le code postal est requis.' })
-  }
+  const country = (body?.country || '').trim() || undefined
 
   if (body?.ageConfirmed !== true) {
     throw createError({
@@ -66,7 +63,7 @@ export default defineEventHandler(async (event) => {
     email,
     firstName: body.firstName?.trim() || undefined,
     city,
-    postalCode,
+    country,
     phone,
     emailConsent,
     emailConsentAt: emailConsent ? now : undefined,
@@ -94,7 +91,7 @@ export default defineEventHandler(async (event) => {
     email,
     firstName: subscriber.firstName,
     city,
-    postalCode,
+    country,
     phone,
     emailConsent,
     emailConsentDate: subscriber.emailConsentAt,

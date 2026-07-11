@@ -5,11 +5,12 @@
 export interface CrmContact {
   email: string
   firstName?: string
-  /** Targeted city the contact wants the show in (or "Other"). Required. */
+  /** City the contact wants the show in (from the autocomplete field). Required. */
   city: string
-  postalCode?: string
-  /** Optional ISO country (not collected on the form anymore). */
+  /** Country resolved alongside the picked city, if any. */
   country?: string
+  /** Kept for back-compat; no longer collected on the form. */
+  postalCode?: string
   /** Phone in international form (with dialing code), if provided. */
   phone?: string
   emailConsent: boolean
