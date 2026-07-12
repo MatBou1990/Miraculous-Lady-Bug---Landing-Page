@@ -9,7 +9,7 @@
  *    On CRM failure the DB record stays with crm_synced = false for later
  *    resynchronisation — the request still succeeds.
  *
- * Required: valid email, city, age confirmation (16+).
+ * Required: valid email, city, phone, age confirmation (16+).
  */
 import { getEmailProvider, getSmsProvider, type CrmContact } from '../utils/crm'
 import { upsertSubscriber, markCrmSynced, type SubscriberInput } from '../utils/subscribers'
@@ -52,10 +52,14 @@ export default defineEventHandler(async (event) => {
     })
   }
 
+  const phone = normalizePhone(body.phone)
+  if (!phone) {
+    throw createError({ statusCode: 400, statusMessage: 'Un numéro de téléphone valide est requis.' })
+  }
+
   const now = new Date().toISOString()
   const emailConsent = Boolean(body.emailConsent)
   const smsConsent = Boolean(body.smsConsent)
-  const phone = normalizePhone(body.phone)
   const ip = getRequestIP(event, { xForwardedFor: true }) || undefined
 
   // ---- 1. Persist to Postgres (source of truth) ----

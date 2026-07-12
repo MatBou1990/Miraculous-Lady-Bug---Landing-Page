@@ -31,6 +31,10 @@ const ageConfirmed = ref(false)
 
 const dialOptions = computed(() => sortedCountries(locale.value))
 const emailValid = computed(() => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim()))
+// Phone is required. The dial code lives in its own select, so this checks the
+// national number only — at least 6 digits rejects obvious junk without being
+// so strict it blocks valid short national formats.
+const phoneValid = computed(() => phone.value.replace(/\D/g, '').length >= 6)
 
 // ---- City autocomplete (server-proxied Places provider) ----
 const suggestions = ref<CitySuggestion[]>([])
@@ -93,6 +97,7 @@ async function submit() {
   if (!city.value && cityQuery.value.trim()) city.value = cityQuery.value.trim()
   if (!emailValid.value) return void (errorMsg.value = t('form.errEmail'))
   if (!city.value) return void (errorMsg.value = t('form.errCity'))
+  if (!phoneValid.value) return void (errorMsg.value = t('form.errPhone'))
   if (!ageConfirmed.value) return void (errorMsg.value = t('form.errAge'))
 
   loading.value = true
@@ -104,7 +109,7 @@ async function submit() {
         email: email.value,
         city: city.value,
         country: cityCountry.value,
-        phone: phone.value.trim() ? `${dialCode.value} ${phone.value.trim()}` : '',
+        phone: `${dialCode.value} ${phone.value.trim()}`,
         emailConsent: emailConsent.value,
         smsConsent: smsConsent.value,
         ageConfirmed: ageConfirmed.value,
@@ -183,7 +188,7 @@ async function submit() {
       </div>
 
       <div class="field">
-        <label for="phone">{{ t('form.phone') }} <span class="opt">{{ t('form.optional') }}</span></label>
+        <label for="phone">{{ t('form.phone') }} <span class="req">*</span></label>
         <div class="phone-group">
           <select v-model="dialCode" class="select dial" :aria-label="t('form.dialCode')">
             <option v-for="c in dialOptions" :key="c.code" :value="c.dial">
