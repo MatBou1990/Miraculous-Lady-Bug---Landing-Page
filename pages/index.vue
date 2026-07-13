@@ -577,12 +577,15 @@ function copyTune() {
   .hero__tagline {
     margin-inline: auto;
   }
-  /* Stacked layout: drop the credit into flow, centered below the CTA */
+  /* Stacked layout: drop the credit into flow, centered below the CTA.
+     Reset the desktop absolute offset AND its pixel transform, or the
+     -65px/+10px nudge would drag the centred mobile credit off-axis. */
   .hero__credit {
     position: static;
     order: 10;
     left: auto;
     bottom: auto;
+    transform: none;
     text-align: center;
     margin: 1.6rem auto 0;
   }
