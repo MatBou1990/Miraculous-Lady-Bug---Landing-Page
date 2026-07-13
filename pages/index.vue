@@ -118,14 +118,16 @@ function copyTune() {
         <img src="/images/keyart-0808-trans.png" alt="" />
       </div>
 
+      <!-- Composer credit, bottom-left over the art (mirrors the key art) -->
+      <p class="hero__credit">
+        <span class="hero__credit-label">{{ t('hero.musicalBy') }}</span>
+        <span class="hero__credit-names">Ella Louise Allaire &amp;<br />Martin Lord Ferguson</span>
+      </p>
+
       <!-- Content (right) -->
       <div class="hero__content container">
         <img class="hero__logo" src="/images/logo.png" :alt="t('hero.logoAlt')" />
         <p class="hero__tagline">{{ t('hero.tagline') }}</p>
-        <p class="hero__credit">
-          <span class="hero__credit-label">{{ t('hero.musicalBy') }}</span>
-          <span class="hero__credit-names">Ella Louise Allaire &amp; Martin Lord Ferguson</span>
-        </p>
         <button class="cta" type="button" @click="scrollToSignup">
           {{ t('hero.cta') }}
           <span class="cta__arrow" aria-hidden="true">↓</span>
@@ -329,30 +331,33 @@ function copyTune() {
   font-size: clamp(1.05rem, 1.5vw, 1.7rem);
   color: var(--cream);
   max-width: 30ch;
-  margin: 0 auto 1.1rem;
+  margin: 0 auto 2rem;
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
 }
 
-/* Composer credit, echoing the key-art "A Musical by:" lockup */
+/* Composer credit — bottom-left over the key art, echoing the reference lockup */
 .hero__credit {
-  margin: 0 auto 1.8rem;
-  line-height: 1.3;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+  position: absolute;
+  left: clamp(1.5rem, 4vw, 4.5rem);
+  bottom: clamp(2rem, 12vh, 8rem);
+  z-index: 4; /* above the art (1), below the emblem (6) */
+  text-align: left;
+  font-family: var(--font-display);
+  line-height: 1.15;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.95);
 }
 .hero__credit-label {
   display: block;
   color: var(--red);
-  font-size: clamp(0.66rem, 0.85vw, 0.82rem);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  margin-bottom: 0.2rem;
+  font-size: clamp(0.8rem, 1vw, 1.05rem);
+  letter-spacing: 0.06em;
+  margin-bottom: 0.15rem;
 }
 .hero__credit-names {
   display: block;
   color: var(--cream);
-  font-weight: 700;
-  font-size: clamp(0.8rem, 1.05vw, 1.05rem);
-  letter-spacing: 0.08em;
+  font-size: clamp(1rem, 1.5vw, 1.5rem);
+  letter-spacing: 0.03em;
   text-transform: uppercase;
 }
 
@@ -542,6 +547,15 @@ function copyTune() {
   }
   .hero__tagline {
     margin-inline: auto;
+  }
+  /* Stacked layout: drop the credit into flow, centered below the CTA */
+  .hero__credit {
+    position: static;
+    order: 10;
+    left: auto;
+    bottom: auto;
+    text-align: center;
+    margin: 1.6rem auto 0;
   }
   /* Less gap before the signup section; "Be Miraculous" sits higher */
   .signup-section {
