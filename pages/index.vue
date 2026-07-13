@@ -162,6 +162,11 @@ function copyTune() {
         <p class="footer__license">{{ t('footer.trademark') }}</p>
         <p class="footer__license">{{ t('footer.production') }}</p>
         <p class="footer__rights">{{ t('footer.rights') }}</p>
+
+        <div class="footer__logos">
+          <img class="footer__logo footer__logo--monlove" src="/images/monlove-logo.png" alt="MONLOVE" />
+          <!-- Miraculous CORP logo slot — add <img class="footer__logo footer__logo--corp" …> once the asset is provided -->
+        </div>
       </div>
     </footer>
   </div>
@@ -452,9 +457,32 @@ function copyTune() {
   border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 .footer__inner {
+  position: relative;
   text-align: center;
   color: rgba(203, 192, 174, 0.5);
   font-size: 0.85rem;
+}
+
+/* Partner logos, right-aligned and vertically centred against the credits */
+.footer__logos {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+}
+.footer__logo {
+  display: block;
+  width: auto;
+  opacity: 0.9;
+}
+.footer__logo--monlove {
+  height: 22px;
+}
+.footer__logo--corp {
+  height: 40px;
 }
 .footer__links {
   display: flex;
@@ -564,6 +592,13 @@ function copyTune() {
   }
   .signup-section__inner {
     gap: 1.75rem;
+  }
+  /* Footer logos drop below the credits, centred */
+  .footer__logos {
+    position: static;
+    transform: none;
+    justify-content: center;
+    margin-top: 1.5rem;
   }
 }
 </style>
