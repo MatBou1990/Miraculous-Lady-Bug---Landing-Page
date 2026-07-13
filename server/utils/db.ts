@@ -13,6 +13,14 @@ export function getSql() {
       prepare: false,
       idle_timeout: 20,
       max: 1,
+      onnotice: (notice) => {
+        // The idempotent schema setup (CREATE TABLE/INDEX IF NOT EXISTS, ADD
+        // COLUMN IF NOT EXISTS) emits harmless "already exists, skipping"
+        // NOTICEs on every cold start. Drop those (42P07 duplicate table/index,
+        // 42701 duplicate column); surface anything else.
+        if (notice.code === '42P07' || notice.code === '42701') return
+        console.warn('[db notice]', notice.message)
+      },
     })
   }
   return sql
@@ -35,23 +43,38 @@ export function ensureSchema(): Promise<void> {
           country           text,
           postal_code       text,
           phone             text,
-          email_consent     boolean NOT NULL DEFAULT false,
-          email_consent_at  timestamptz,
-          sms_consent       boolean NOT NULL DEFAULT false,
-          sms_consent_at    timestamptz,
-          age_confirmed     boolean NOT NULL DEFAULT false,
-          utm_source        text,
-          utm_medium        text,
-          utm_campaign      text,
-          ip                text,
-          crm_synced        boolean NOT NULL DEFAULT false,
-          created_at        timestamptz NOT NULL DEFAULT now(),
-          updated_at        timestamptz NOT NULL DEFAULT now()
+          email_consent      boolean NOT NULL DEFAULT false,
+          email_consent_at   timestamptz,
+          email_consent_text text,
+          sms_consent        boolean NOT NULL DEFAULT false,
+          sms_consent_at     timestamptz,
+          sms_consent_text   text,
+          age_confirmed      boolean NOT NULL DEFAULT false,
+          locale             text,
+          utm_source         text,
+          utm_medium         text,
+          utm_campaign       text,
+          ip                 text,
+          crm_synced         boolean NOT NULL DEFAULT false,
+          created_at         timestamptz NOT NULL DEFAULT now(),
+          updated_at         timestamptz NOT NULL DEFAULT now()
         )
       `
+      // Idempotent column adds so an already-created table gets the newer
+      // consent-text/locale columns without a manual migration.
+      await db`ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS email_consent_text text`
+      await db`ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS sms_consent_text text`
+      await db`ALTER TABLE subscribers ADD COLUMN IF NOT EXISTS locale text`
+
       // Fast lookups for per-country export / CRM backfill.
       await db`CREATE INDEX IF NOT EXISTS subscribers_country_idx ON subscribers (country)`
       await db`CREATE INDEX IF NOT EXISTS subscribers_crm_synced_idx ON subscribers (crm_synced)`
+
+      // Lock the table to server-only access (this table is created via raw SQL,
+      // so Supabase's automatic RLS doesn't apply to it). Our connection role
+      // owns the table and bypasses RLS, so writes are unaffected; the public
+      // PostgREST API is blocked. Idempotent — safe to run on every cold start.
+      await db`ALTER TABLE subscribers ENABLE ROW LEVEL SECURITY`
     })().catch((err) => {
       // Reset so a later request can retry schema creation.
       schemaReady = null

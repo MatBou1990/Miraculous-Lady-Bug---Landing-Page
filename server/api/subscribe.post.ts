@@ -23,8 +23,11 @@ interface SubscribeBody {
   country?: string
   phone?: string
   emailConsent?: boolean
+  emailConsentText?: string
   smsConsent?: boolean
+  smsConsentText?: string
   ageConfirmed?: boolean
+  locale?: string
   utmSource?: string
   utmMedium?: string
   utmCampaign?: string
@@ -60,6 +63,10 @@ export default defineEventHandler(async (event) => {
   const now = new Date().toISOString()
   const emailConsent = Boolean(body.emailConsent)
   const smsConsent = Boolean(body.smsConsent)
+  // Archive the exact wording only when the matching box was actually ticked.
+  const emailConsentText = emailConsent ? body.emailConsentText?.trim() || undefined : undefined
+  const smsConsentText = smsConsent ? body.smsConsentText?.trim() || undefined : undefined
+  const locale = body.locale?.trim().slice(0, 5) || undefined
   const ip = getRequestIP(event, { xForwardedFor: true }) || undefined
 
   // ---- 1. Persist to Postgres (source of truth) ----
@@ -71,9 +78,12 @@ export default defineEventHandler(async (event) => {
     phone,
     emailConsent,
     emailConsentAt: emailConsent ? now : undefined,
+    emailConsentText,
     smsConsent,
     smsConsentAt: smsConsent ? now : undefined,
+    smsConsentText,
     ageConfirmed: true,
+    locale,
     utmSource: body.utmSource?.trim() || undefined,
     utmMedium: body.utmMedium?.trim() || undefined,
     utmCampaign: body.utmCampaign?.trim() || undefined,

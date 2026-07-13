@@ -111,8 +111,12 @@ async function submit() {
         country: cityCountry.value,
         phone: `${dialCode.value} ${phone.value.trim()}`,
         emailConsent: emailConsent.value,
+        // Exact wording shown to the user, archived as consent proof.
+        emailConsentText: emailConsent.value ? t('form.emailConsent') : undefined,
         smsConsent: smsConsent.value,
+        smsConsentText: smsConsent.value ? t('form.smsConsent') : undefined,
         ageConfirmed: ageConfirmed.value,
+        locale: locale.value,
         utmSource: utm.source,
         utmMedium: utm.medium,
         utmCampaign: utm.campaign,
