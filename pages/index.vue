@@ -340,7 +340,7 @@ function copyTune() {
   position: absolute;
   left: clamp(1.5rem, 17vw, 17rem);
   bottom: clamp(2rem, 11vh, 7.5rem);
-  transform: translate(-55px, 10px); /* onto the red edge + up 10px from previous */
+  transform: translate(-65px, 10px); /* onto the red edge (+10px left for the longer FR label) */
   z-index: 4; /* above the art (1), below the emblem (6) */
   text-align: left;
   font-family: var(--font-display);
