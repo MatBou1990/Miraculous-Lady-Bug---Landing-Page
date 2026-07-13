@@ -581,12 +581,19 @@ function copyTune() {
      The art sits at the top on mobile, so anchor from the top; drop the
      desktop pixel transform. Values are vw-based so they track the art. */
   .hero__credit {
-    left: 6vw;
-    top: 74vw;
+    left: 19vw;
+    top: 75vw;
     bottom: auto;
     transform: none;
     text-align: left;
     margin: 0;
+  }
+  /* Smaller on mobile so it tucks into the tight dark spot */
+  .hero__credit-label {
+    font-size: 0.56rem;
+  }
+  .hero__credit-names {
+    font-size: 0.68rem;
   }
   /* Less gap before the signup section; "Be Miraculous" sits higher */
   .signup-section {
