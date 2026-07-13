@@ -340,7 +340,7 @@ function copyTune() {
   position: absolute;
   left: clamp(1.5rem, 17vw, 17rem);
   bottom: clamp(2rem, 11vh, 7.5rem);
-  transform: translate(-2px, 2px); /* fine nudge: barely left + barely lower */
+  transform: translate(-10px, 10px); /* nudge: ~10px left + ~10px lower */
   z-index: 4; /* above the art (1), below the emblem (6) */
   text-align: left;
   font-family: var(--font-display);
@@ -350,9 +350,9 @@ function copyTune() {
 .hero__credit-label {
   display: block;
   color: var(--red);
-  font-size: clamp(0.6rem, 0.72vw, 0.75rem);
+  font-size: clamp(0.72rem, 0.9vw, 0.95rem);
   letter-spacing: 0.06em;
-  margin-bottom: 0.12rem;
+  margin-bottom: 0.14rem;
 }
 .hero__credit-names {
   display: block;
