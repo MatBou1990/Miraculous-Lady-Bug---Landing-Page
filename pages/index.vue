@@ -122,6 +122,10 @@ function copyTune() {
       <div class="hero__content container">
         <img class="hero__logo" src="/images/logo.png" :alt="t('hero.logoAlt')" />
         <p class="hero__tagline">{{ t('hero.tagline') }}</p>
+        <p class="hero__credit">
+          <span class="hero__credit-label">{{ t('hero.musicalBy') }}</span>
+          <span class="hero__credit-names">Ella Louise Allaire &amp; Martin Lord Ferguson</span>
+        </p>
         <button class="cta" type="button" @click="scrollToSignup">
           {{ t('hero.cta') }}
           <span class="cta__arrow" aria-hidden="true">↓</span>
@@ -325,8 +329,31 @@ function copyTune() {
   font-size: clamp(1.05rem, 1.5vw, 1.7rem);
   color: var(--cream);
   max-width: 30ch;
-  margin: 0 auto 2rem;
+  margin: 0 auto 1.1rem;
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
+}
+
+/* Composer credit, echoing the key-art "A Musical by:" lockup */
+.hero__credit {
+  margin: 0 auto 1.8rem;
+  line-height: 1.3;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+.hero__credit-label {
+  display: block;
+  color: var(--red);
+  font-size: clamp(0.66rem, 0.85vw, 0.82rem);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 0.2rem;
+}
+.hero__credit-names {
+  display: block;
+  color: var(--cream);
+  font-weight: 700;
+  font-size: clamp(0.8rem, 1.05vw, 1.05rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .cta {
