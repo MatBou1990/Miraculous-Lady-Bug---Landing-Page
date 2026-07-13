@@ -340,7 +340,7 @@ function copyTune() {
   position: absolute;
   left: clamp(1.5rem, 17vw, 17rem);
   bottom: clamp(2rem, 11vh, 7.5rem);
-  transform: translate(-10px, 10px); /* nudge: ~10px left + ~10px lower */
+  transform: translate(-40px, 20px); /* nudge: 40px left + 20px lower */
   z-index: 4; /* above the art (1), below the emblem (6) */
   text-align: left;
   font-family: var(--font-display);
