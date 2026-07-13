@@ -338,8 +338,8 @@ function copyTune() {
 /* Composer credit — bottom-left over the key art, echoing the reference lockup */
 .hero__credit {
   position: absolute;
-  left: clamp(1.5rem, 4vw, 4.5rem);
-  bottom: clamp(2rem, 12vh, 8rem);
+  left: clamp(1.5rem, 17vw, 17rem);
+  bottom: clamp(2rem, 11vh, 7.5rem);
   z-index: 4; /* above the art (1), below the emblem (6) */
   text-align: left;
   font-family: var(--font-display);
@@ -349,14 +349,14 @@ function copyTune() {
 .hero__credit-label {
   display: block;
   color: var(--red);
-  font-size: clamp(0.8rem, 1vw, 1.05rem);
+  font-size: clamp(0.6rem, 0.72vw, 0.75rem);
   letter-spacing: 0.06em;
-  margin-bottom: 0.15rem;
+  margin-bottom: 0.12rem;
 }
 .hero__credit-names {
   display: block;
   color: var(--cream);
-  font-size: clamp(1rem, 1.5vw, 1.5rem);
+  font-size: clamp(0.72rem, 1vw, 1.05rem);
   letter-spacing: 0.03em;
   text-transform: uppercase;
 }
