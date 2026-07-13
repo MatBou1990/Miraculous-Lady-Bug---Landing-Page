@@ -165,7 +165,7 @@ function copyTune() {
 
         <div class="footer__logos">
           <img class="footer__logo footer__logo--monlove" src="/images/monlove-logo.png" alt="MONLOVE" />
-          <!-- Miraculous CORP logo slot — add <img class="footer__logo footer__logo--corp" …> once the asset is provided -->
+          <img class="footer__logo footer__logo--corp" src="/images/miraculous-corp.png" alt="Miraculous Corp" />
         </div>
       </div>
     </footer>
