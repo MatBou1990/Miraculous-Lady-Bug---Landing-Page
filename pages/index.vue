@@ -577,17 +577,16 @@ function copyTune() {
   .hero__tagline {
     margin-inline: auto;
   }
-  /* Stacked layout: drop the credit into flow, centered below the CTA.
-     Reset the desktop absolute offset AND its pixel transform, or the
-     -65px/+10px nudge would drag the centred mobile credit off-axis. */
+  /* Keep the credit over the key art at the Eiffel-tower base (like desktop).
+     The art sits at the top on mobile, so anchor from the top; drop the
+     desktop pixel transform. Values are vw-based so they track the art. */
   .hero__credit {
-    position: static;
-    order: 10;
-    left: auto;
+    left: 6vw;
+    top: 74vw;
     bottom: auto;
     transform: none;
-    text-align: center;
-    margin: 1.6rem auto 0;
+    text-align: left;
+    margin: 0;
   }
   /* Less gap before the signup section; "Be Miraculous" sits higher */
   .signup-section {
