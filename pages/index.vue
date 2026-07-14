@@ -113,16 +113,17 @@ function copyTune() {
       <img class="hero__bug" src="/images/ladybug-icon.png" alt="" aria-hidden="true" />
       <div class="hero__glow" aria-hidden="true"></div>
 
-      <!-- Key art (bottom-left) -->
-      <div class="hero__art" aria-hidden="true">
-        <img src="/images/keyart-0808-trans.png" alt="" />
+      <!-- Key art + composer credit. The credit lives INSIDE the art box and is
+           positioned/sized in % + cqw of that box, so it scales with the artwork
+           and stays pinned to the same spot at any viewport — one set of values
+           for both desktop and mobile. -->
+      <div class="hero__art">
+        <img src="/images/keyart-0808-trans.png" alt="" aria-hidden="true" />
+        <p class="hero__credit">
+          <span class="hero__credit-label">{{ t('hero.musicalBy') }}</span>
+          <span class="hero__credit-names">Ella Louise Allaire &amp;<br />Martin Lord Ferguson</span>
+        </p>
       </div>
-
-      <!-- Composer credit, bottom-left over the art (mirrors the key art) -->
-      <p class="hero__credit">
-        <span class="hero__credit-label">{{ t('hero.musicalBy') }}</span>
-        <span class="hero__credit-names">Ella Louise Allaire &amp;<br />Martin Lord Ferguson</span>
-      </p>
 
       <!-- Content (right) -->
       <div class="hero__content container">
@@ -307,13 +308,18 @@ function copyTune() {
   width: var(--art-w, clamp(440px, 60vw, 1150px));
   z-index: 1;
   filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.5));
-  -webkit-mask-image: linear-gradient(90deg, #000 86%, transparent 100%);
-  mask-image: linear-gradient(90deg, #000 86%, transparent 100%);
+  /* Container for the credit: makes cqw = 1% of the artwork's width, so the
+     credit scales with the art instead of with the viewport. */
+  container-type: inline-size;
 }
 .hero__art img {
   width: 100%;
   height: auto;
   display: block;
+  /* Feather the right edge into the dark. Masking the IMG (not the box) keeps
+     the credit text — a sibling inside the box — fully opaque. */
+  -webkit-mask-image: linear-gradient(90deg, #000 86%, transparent 100%);
+  mask-image: linear-gradient(90deg, #000 86%, transparent 100%);
 }
 
 /* Content centered */
@@ -340,31 +346,35 @@ function copyTune() {
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
 }
 
-/* Composer credit — bottom-left over the key art, echoing the reference lockup */
+/* Composer credit — pinned to the artwork at the Eiffel-tower base.
+   Position is a % of the art box and type is sized in cqw (1cqw = 1% of the
+   art's width), so the whole lockup scales with the art and holds its spot at
+   every screen size. These same values drive desktop AND mobile. */
 .hero__credit {
   position: absolute;
-  left: clamp(1.5rem, 17vw, 17rem);
-  bottom: clamp(2rem, 11vh, 7.5rem);
-  transform: translate(-65px, 10px); /* onto the red edge (+10px left for the longer FR label) */
-  z-index: 4; /* above the art (1), below the emblem (6) */
+  left: var(--credit-x, 25%);
+  top: var(--credit-y, 77%);
+  z-index: 4; /* above the art image, below the emblem */
+  margin: 0;
   text-align: left;
   font-family: var(--font-display);
   line-height: 1.15;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.95);
+  text-shadow: 0 0.15em 0.5em rgba(0, 0, 0, 0.95);
 }
 .hero__credit-label {
   display: block;
   color: var(--red);
-  font-size: clamp(0.72rem, 0.9vw, 0.95rem);
+  font-size: var(--credit-label-size, 1.45cqw);
   letter-spacing: 0.06em;
-  margin-bottom: 0.14rem;
+  margin-bottom: 0.15em;
 }
 .hero__credit-names {
   display: block;
   color: var(--cream);
-  font-size: clamp(0.72rem, 1vw, 1.05rem);
+  font-size: var(--credit-names-size, 1.7cqw);
   letter-spacing: 0.03em;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .cta {
@@ -542,7 +552,8 @@ function copyTune() {
     left: 1.1rem;
   }
   .hero__art {
-    position: static;
+    /* relative (not static) so the credit inside still anchors to the art */
+    position: relative;
     order: -1;
     width: 132%; /* enlarge so the red curtain fills more of the top */
     max-width: none;
@@ -555,7 +566,10 @@ function copyTune() {
     opacity: 1;
     margin-top: 0; /* red curtain reaches the very top on mobile too */
     filter: drop-shadow(0 24px 44px rgba(0, 0, 0, 0.55));
-    /* Melt the bottom of the art into the content below */
+  }
+  /* Melt the bottom of the art into the content below (mask the img, not the
+     box, so the credit stays opaque) */
+  .hero__art img {
     -webkit-mask-image: linear-gradient(180deg, #000 66%, transparent 100%);
     mask-image: linear-gradient(180deg, #000 66%, transparent 100%);
   }
@@ -577,24 +591,9 @@ function copyTune() {
   .hero__tagline {
     margin-inline: auto;
   }
-  /* Keep the credit over the key art at the Eiffel-tower base (like desktop).
-     The art sits at the top on mobile, so anchor from the top; drop the
-     desktop pixel transform. Values are vw-based so they track the art. */
-  .hero__credit {
-    left: 19vw;
-    top: 75vw;
-    bottom: auto;
-    transform: none;
-    text-align: left;
-    margin: 0;
-  }
-  /* Smaller on mobile so it tucks into the tight dark spot */
-  .hero__credit-label {
-    font-size: 0.56rem;
-  }
-  .hero__credit-names {
-    font-size: 0.68rem;
-  }
+  /* No credit overrides here: it's pinned inside the art box in % + cqw, so it
+     scales and holds its spot automatically. */
+
   /* Less gap before the signup section; "Be Miraculous" sits higher */
   .signup-section {
     padding-top: 2rem;
