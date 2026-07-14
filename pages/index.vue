@@ -260,7 +260,13 @@ function copyTune() {
 /* ------------------------------- HERO ------------------------------- */
 .hero {
   position: relative;
-  min-height: var(--hero-h, 72svh);
+  /* The art is ~60vw wide and ~1.33:1, so it is ~45vw tall. If the hero is
+     taller than that, the red curtain stops short of the top — which is exactly
+     the jump you saw when narrowing the window (it only "came back" at the
+     mobile breakpoint, where the art switches to 132%). Cap the hero at the
+     art's height so the curtain always reaches the top, without oversizing the
+     artwork and shoving the characters into the copy. */
+  min-height: min(var(--hero-h, 72svh), 45vw);
   display: flex;
   align-items: flex-start;
   padding-top: var(--hero-pt, 7vh);
@@ -352,8 +358,8 @@ function copyTune() {
    every screen size. These same values drive desktop AND mobile. */
 .hero__credit {
   position: absolute;
-  left: var(--credit-x, 25%);
-  top: var(--credit-y, 77%);
+  left: var(--credit-x, 23%);
+  top: var(--credit-y, 85%);
   z-index: 4; /* above the art image, below the emblem */
   margin: 0;
   text-align: left;
@@ -581,7 +587,9 @@ function copyTune() {
     opacity: 0.75;
   }
   .hero__content {
-    margin: -4.5rem auto 0; /* pull logo/CTA up over the art's faded bottom */
+    /* Was -4.5rem: that pulled the logo up into the credit's zone under the
+       characters' feet. Keep a light overlap only. */
+    margin: -1.5rem auto 0;
     text-align: center;
   }
   .hero__logo {
