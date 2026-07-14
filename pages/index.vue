@@ -359,7 +359,7 @@ function copyTune() {
 .hero__credit {
   position: absolute;
   left: var(--credit-x, 23%);
-  top: var(--credit-y, 85%);
+  top: var(--credit-y, 82%);
   z-index: 4; /* above the art image, below the emblem */
   margin: 0;
   text-align: left;
@@ -542,7 +542,9 @@ function copyTune() {
   }
 }
 
-/* Mobile: key art sits at the TOP, full and sharp; content stacks below */
+/* Mobile: key art sits at the TOP, full and sharp; content stacks below.
+   Stays at 860px: below that the desktop overlay (centred copy on top of the
+   art) collides with the characters, so the stacked layout has to take over. */
 @media (max-width: 859px) {
   .hero {
     flex-direction: column;
@@ -561,7 +563,7 @@ function copyTune() {
     /* relative (not static) so the credit inside still anchors to the art */
     position: relative;
     order: -1;
-    width: 132%; /* enlarge so the red curtain fills more of the top */
+    width: 132%; /* full-bleed: the red curtain fills the top of the phone */
     max-width: none;
     align-self: start;
     margin-left: -18%; /* keep the red flush left, characters toward centre */
