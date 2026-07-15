@@ -16,10 +16,12 @@ const messages: Record<Locale, Dict> = {
     'signup.introTitleB': 'dans votre ville',
     'signup.introText':
       'Envie de voir Miraculous Ladybug & Cat Noir : The Live Stage Spectacular dans votre ville ? Rejoignez la liste d’attente officielle pour manifester votre intérêt. Chaque inscription nous aide à identifier où les fans veulent voir le spectacle. Vous serez aussi parmi les premiers informés des dates de tournée, des ventes de billets et des annonces spéciales.',
+    'signup.microcopy':
+      'Chaque inscription nous aide à amener le spectacle dans davantage de villes à travers le monde.',
 
-    'form.title': 'Soyez notifié·e',
+    'form.title': 'Rejoignez la liste d’attente officielle',
     'form.lead':
-      'Nous vous enverrons les dates, les salles et les informations de billetterie dès leur annonce.',
+      'Soyez parmi les premiers informés des dates de tournée, des ventes de billets et des annonces spéciales quand Miraculous Live arrive près de chez vous.',
     'form.firstName': 'Prénom',
     'form.firstNamePlaceholder': 'Votre prénom',
     'form.email': 'E-mail',
@@ -36,7 +38,7 @@ const messages: Record<Locale, Dict> = {
       "J'accepte de recevoir par SMS les actualités, mises à jour et offres liées à Miraculous Ladybug & Cat Noir : The Live Stage Spectacular. En fournissant votre numéro, vous acceptez de recevoir des SMS concernant le spectacle. Des frais de message et de données peuvent s'appliquer. Répondez STOP pour vous désinscrire.",
     'form.age': "Je confirme avoir 16 ans ou plus.",
     'form.smsNote': '',
-    'form.submit': 'Restez informé·e',
+    'form.submit': 'Rejoindre la liste d’attente',
     'form.submitting': 'Un instant…',
     'form.legalPre':
       'En vous inscrivant, vous acceptez que vos données soient utilisées pour vous envoyer les communications choisies. Vous pouvez vous désinscrire à tout moment. Pour en savoir plus, consultez notre',
@@ -68,10 +70,12 @@ const messages: Record<Locale, Dict> = {
     'signup.introTitleB': 'to your city',
     'signup.introText':
       'Want to see Miraculous Ladybug & Cat Noir: The Live Stage Spectacular in your city? Join the official waitlist to show your interest. Every registration helps us identify where fans want to see the show next. You’ll also be among the first to hear about tour dates, ticket sales and special announcements.',
+    'signup.microcopy':
+      'Every registration helps us bring the show to more cities around the world.',
 
-    'form.title': 'Get notified',
+    'form.title': 'Join the official waitlist',
     'form.lead':
-      "We'll send you show dates, venues and ticket information as soon as they're announced.",
+      'Be among the first to hear about tour dates, ticket sales and special announcements when Miraculous Live comes to your area.',
     'form.firstName': 'First name',
     'form.firstNamePlaceholder': 'Your first name',
     'form.email': 'Email',
@@ -88,7 +92,7 @@ const messages: Record<Locale, Dict> = {
       'I agree to receive news, updates and offers related to Miraculous Ladybug & Cat Noir: The Live Stage Spectacular by SMS. By providing your number, you agree to receive SMS communications about the show. Message and data rates may apply. Reply STOP to opt out.',
     'form.age': 'I confirm I am 16 or older.',
     'form.smsNote': '',
-    'form.submit': 'Keep me posted',
+    'form.submit': 'Join the waitlist',
     'form.submitting': 'One moment…',
     'form.legalPre':
       'By signing up, you agree that your data will be used to send you the communications you selected. You can unsubscribe at any time. To learn more, see our',

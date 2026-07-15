@@ -148,6 +148,7 @@ function copyTune() {
             {{ t('signup.introTitleA') }}<br />{{ t('signup.introTitleB') }}
           </h1>
           <p class="signup-section__text">{{ t('signup.introText') }}</p>
+          <p class="signup-section__microcopy">{{ t('signup.microcopy') }}</p>
         </div>
         <SignupForm />
       </div>
@@ -464,6 +465,16 @@ function copyTune() {
   color: var(--cream-dim);
   font-size: clamp(0.98rem, 1.1vw, 1.3rem);
   max-width: 46ch; /* tidy paragraph; wraps responsively */
+}
+/* Participation nudge, right before the form — a touch emphasised */
+.signup-section__microcopy {
+  margin-top: 1.1rem;
+  max-width: 46ch;
+  color: var(--cream);
+  font-size: clamp(0.95rem, 1.05vw, 1.2rem);
+  font-weight: 600;
+  border-left: 3px solid var(--red);
+  padding-left: 0.9rem;
 }
 
 /* ------------------------------ FOOTER ------------------------------ */
