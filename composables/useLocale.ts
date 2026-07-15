@@ -12,10 +12,10 @@ const messages: Record<Locale, Dict> = {
     'hero.logoAlt': 'Miraculous : Ladybug & Cat Noir — Le Spectacle Live',
     'hero.scrollAria': "Aller à l'inscription",
 
-    'signup.introTitleA': 'Ramenez Ladybug & Cat Noir',
+    'signup.introTitleA': 'Aidez-nous à ramener Miraculous Ladybug & Cat Noir',
     'signup.introTitleB': 'dans votre ville',
     'signup.introText':
-      'Envie de voir Miraculous Ladybug & Cat Noir : The Live Stage Spectacular près de chez vous ? Inscrivez-vous pour manifester votre intérêt et être les premiers informés des dates, des salles et de la billetterie.',
+      'Envie de voir Miraculous Ladybug & Cat Noir : The Live Stage Spectacular dans votre ville ? Rejoignez la liste d’attente officielle pour manifester votre intérêt. Chaque inscription nous aide à identifier où les fans veulent voir le spectacle. Vous serez aussi parmi les premiers informés des dates de tournée, des ventes de billets et des annonces spéciales.',
 
     'form.title': 'Soyez notifié·e',
     'form.lead':
@@ -64,10 +64,10 @@ const messages: Record<Locale, Dict> = {
     'hero.logoAlt': 'Miraculous: Ladybug & Cat Noir — The Live Stage Spectacular',
     'hero.scrollAria': 'Go to sign-up',
 
-    'signup.introTitleA': 'Bring Ladybug & Cat Noir',
+    'signup.introTitleA': 'Help bring Miraculous Ladybug & Cat Noir',
     'signup.introTitleB': 'to your city',
     'signup.introText':
-      'Want to see Miraculous Ladybug & Cat Noir: The Live Stage Spectacular near you? Sign up to show your interest and be the first to know about show dates, venues and tickets.',
+      'Want to see Miraculous Ladybug & Cat Noir: The Live Stage Spectacular in your city? Join the official waitlist to show your interest. Every registration helps us identify where fans want to see the show next. You’ll also be among the first to hear about tour dates, ticket sales and special announcements.',
 
     'form.title': 'Get notified',
     'form.lead':
