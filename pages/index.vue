@@ -145,7 +145,7 @@ function copyTune() {
       <div class="container signup-section__inner">
         <div class="signup-section__intro">
           <h1 class="signup-section__title">
-            {{ t('signup.introTitleA') }}<br />{{ t('signup.introTitleB') }}
+            {{ t('signup.introTitleA') }}<br />{{ t('signup.introTitleB') }}<br />{{ t('signup.introTitleC') }}
           </h1>
           <p class="signup-section__text">{{ t('signup.introText') }}</p>
           <p class="signup-section__microcopy">{{ t('signup.microcopy') }}</p>
