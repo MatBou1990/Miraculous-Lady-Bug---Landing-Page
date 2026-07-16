@@ -27,6 +27,31 @@ export interface CitySuggestion {
 // net against the occasional region/county slipping through.
 const PLACE_TYPES = new Set(['city', 'town', 'village', 'municipality', 'district'])
 
+// Rank populated places so a real city (e.g. Montréal QC) sorts above a tiny
+// same-named village (e.g. Montreal, Wisconsin) that Photon matches first on an
+// unaccented query. Use the OSM tag `osm_value` (city/town/village) — Photon's
+// coarse `type` is "city" for every populated place, so it can't tell them
+// apart. Tie-break by geographic extent (bigger place first). Lower = higher.
+const TYPE_RANK: Record<string, number> = {
+  city: 0,
+  municipality: 1,
+  town: 2,
+  village: 3,
+  hamlet: 4,
+  district: 5,
+}
+function placeRank(f: PhotonFeature): number {
+  return TYPE_RANK[f.properties?.osm_value || ''] ?? 6
+}
+function extentArea(f: PhotonFeature): number {
+  const e = f.properties?.extent
+  if (!e || e.length < 4) return 0
+  return Math.abs(e[2] - e[0]) * Math.abs(e[1] - e[3])
+}
+function comparePlaces(a: PhotonFeature, b: PhotonFeature): number {
+  return placeRank(a) - placeRank(b) || extentArea(b) - extentArea(a)
+}
+
 export default defineEventHandler(async (event): Promise<CitySuggestion[]> => {
   const query = getQuery(event)
   const q = ((query.q as string) || '').trim()
@@ -55,6 +80,7 @@ interface PhotonFeature {
     state?: string
     type?: string
     osm_value?: string
+    extent?: number[]
   }
 }
 
@@ -67,10 +93,12 @@ async function searchPhoton(q: string, lang: string): Promise<CitySuggestion[]> 
     '&layer=city'
 
   const res = await $fetch<{ features?: PhotonFeature[] }>(url)
+  // Float real cities (and larger places) above tiny same-named villages.
+  const feats = (res.features || []).slice().sort(comparePlaces)
   const seen = new Set<string>()
   const out: CitySuggestion[] = []
 
-  for (const f of res.features || []) {
+  for (const f of feats) {
     const p = f.properties || {}
     const type = p.type || p.osm_value
     if (type && !PLACE_TYPES.has(type)) continue
