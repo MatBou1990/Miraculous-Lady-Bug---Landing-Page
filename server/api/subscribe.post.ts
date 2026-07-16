@@ -13,6 +13,7 @@
  */
 import { getEmailProvider, getSmsProvider, type CrmContact } from '../utils/crm'
 import { upsertSubscriber, markCrmSynced, type SubscriberInput } from '../utils/subscribers'
+import { resolveCountryForCity } from '../utils/geocode'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -46,7 +47,13 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, statusMessage: 'La ville est requise.' })
   }
 
-  const country = (body?.country || '').trim() || undefined
+  // The form only sends a country when the visitor picked an autocomplete
+  // suggestion. When they just typed the city, resolve the country server-side
+  // so it's never left NULL.
+  let country = (body?.country || '').trim() || undefined
+  if (!country) {
+    country = (await resolveCountryForCity(city)).country
+  }
 
   if (body?.ageConfirmed !== true) {
     throw createError({

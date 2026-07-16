@@ -55,8 +55,8 @@ const messages: Record<Locale, Dict> = {
 
     'footer.legal': 'Mentions légales',
     'footer.privacy': 'Politique de confidentialité',
-    'footer.copyright': '© 2026 MIRACULOUS CORP. & MONLOVE INTERNATIONAL. All rights reserved.',
-    'footer.trademark': 'Miraculous® is a registered trademark of MIRACULOUS CORP.',
+    'footer.copyright': '© 2026 MIRACULOUS CORP. & MONLOVE INTERNATIONAL. Tous droits réservés.',
+    'footer.trademark': 'Miraculous® est une marque déposée de MIRACULOUS CORP.',
   },
   en: {
     'hero.tagline': 'Your favourite heroes finally come to life on stage.',
