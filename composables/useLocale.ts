@@ -55,10 +55,8 @@ const messages: Record<Locale, Dict> = {
 
     'footer.legal': 'Mentions légales',
     'footer.privacy': 'Politique de confidentialité',
-    'footer.rights': 'ALL RIGHTS RESERVED',
-    'footer.trademark': '© 2026 | Miraculous® is a registered trademark of MIRACULOUS CORP.',
-    'footer.production':
-      '© 2026 | Miraculous Ladybug & Cat Noir The Live Stage Spectacular by MIRACULOUS CORP. & MONLOVE INTERNATIONAL',
+    'footer.copyright': '© 2026 MIRACULOUS CORP. & MONLOVE INTERNATIONAL. All rights reserved.',
+    'footer.trademark': 'Miraculous® is a registered trademark of MIRACULOUS CORP.',
   },
   en: {
     'hero.tagline': 'Your favourite heroes finally come to life on stage.',
@@ -110,10 +108,8 @@ const messages: Record<Locale, Dict> = {
 
     'footer.legal': 'Legal notice',
     'footer.privacy': 'Privacy policy',
-    'footer.rights': 'ALL RIGHTS RESERVED',
-    'footer.trademark': '© 2026 | Miraculous® is a registered trademark of MIRACULOUS CORP.',
-    'footer.production':
-      '© 2026 | Miraculous Ladybug & Cat Noir The Live Stage Spectacular by MIRACULOUS CORP. & MONLOVE INTERNATIONAL',
+    'footer.copyright': '© 2026 MIRACULOUS CORP. & MONLOVE INTERNATIONAL. All rights reserved.',
+    'footer.trademark': 'Miraculous® is a registered trademark of MIRACULOUS CORP.',
   },
 }
 

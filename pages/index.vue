@@ -161,9 +161,8 @@ function copyTune() {
           <span aria-hidden="true">·</span>
           <NuxtLink to="/confidentialite">{{ t('footer.privacy') }}</NuxtLink>
         </nav>
+        <p class="footer__license">{{ t('footer.copyright') }}</p>
         <p class="footer__license">{{ t('footer.trademark') }}</p>
-        <p class="footer__license">{{ t('footer.production') }}</p>
-        <p class="footer__rights">{{ t('footer.rights') }}</p>
 
         <div class="footer__logos">
           <img class="footer__logo footer__logo--monlove" src="/images/monlove-logo.png" alt="MONLOVE" />
