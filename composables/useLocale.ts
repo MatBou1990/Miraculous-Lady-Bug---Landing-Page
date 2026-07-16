@@ -12,7 +12,7 @@ const messages: Record<Locale, Dict> = {
     'hero.logoAlt': 'Miraculous : Ladybug & Cat Noir — Le Spectacle Live',
     'hero.scrollAria': "Aller à l'inscription",
 
-    'signup.introTitleA': 'Aide-nous à ramener',
+    'signup.introTitleA': 'Aide-nous à amener',
     'signup.introTitleB': 'Miraculous Ladybug & Cat Noir',
     'signup.introTitleC': 'dans ta ville',
     'signup.introText':
