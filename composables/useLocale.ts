@@ -6,7 +6,7 @@ type Dict = Record<string, string>
 
 const messages: Record<Locale, Dict> = {
   fr: {
-    'hero.tagline': 'Vos héros préférés prennent enfin vie sur scène.',
+    'hero.tagline': 'Tes héros préférés prennent enfin vie sur scène.',
     'hero.musicalBy': 'Une comédie musicale par',
     'hero.cta': "Je m'inscris",
     'hero.logoAlt': 'Miraculous : Ladybug & Cat Noir — Le Spectacle Live',
@@ -14,21 +14,21 @@ const messages: Record<Locale, Dict> = {
 
     'signup.introTitleA': 'Aide-nous à ramener',
     'signup.introTitleB': 'Miraculous Ladybug & Cat Noir',
-    'signup.introTitleC': 'dans votre ville',
+    'signup.introTitleC': 'dans ta ville',
     'signup.introText':
-      'Envie de voir Miraculous Ladybug & Cat Noir : The Live Stage Spectacular dans votre ville ? Rejoignez la liste d’attente officielle pour manifester votre intérêt et être parmi les premiers informés des ventes de billets et des annonces spéciales.',
+      'Envie de voir Miraculous Ladybug & Cat Noir : The Live Stage Spectacular dans ta ville ? Rejoins la liste d’attente officielle pour manifester ton intérêt et être parmi les premiers informés des ventes de billets et des annonces spéciales.',
     'signup.microcopy':
       'Chaque inscription nous aide à amener le spectacle dans davantage de villes à travers le monde.',
 
-    'form.title': 'Rejoignez la liste d’attente officielle',
+    'form.title': 'Rejoins la liste d’attente officielle',
     'form.lead':
-      'Soyez parmi les premiers informés des dates de tournée, des ventes de billets et des annonces spéciales quand Miraculous Live arrive près de chez vous.',
+      'Sois parmi les premiers informés des dates de tournée, des ventes de billets et des annonces spéciales quand Miraculous Live arrive près de chez toi.',
     'form.firstName': 'Prénom',
-    'form.firstNamePlaceholder': 'Votre prénom',
+    'form.firstNamePlaceholder': 'Ton prénom',
     'form.email': 'E-mail',
-    'form.emailPlaceholder': 'vous@exemple.com',
+    'form.emailPlaceholder': 'toi@exemple.com',
     'form.city': 'Ville',
-    'form.cityPlaceholder': 'Commencez à saisir votre ville…',
+    'form.cityPlaceholder': 'Commence à saisir ta ville…',
     'form.phone': 'Téléphone',
     'form.phonePlaceholder': '6 12 34 56 78',
     'form.dialCode': 'Indicatif',
@@ -36,22 +36,22 @@ const messages: Record<Locale, Dict> = {
     'form.emailConsent':
       "J'accepte de recevoir par e-mail les actualités, mises à jour, offres et contenus exclusifs liés à Miraculous Ladybug & Cat Noir : The Live Stage Spectacular.",
     'form.smsConsent':
-      "J'accepte de recevoir par SMS les actualités, mises à jour et offres liées à Miraculous Ladybug & Cat Noir : The Live Stage Spectacular. En fournissant votre numéro, vous acceptez de recevoir des SMS concernant le spectacle. Des frais de message et de données peuvent s'appliquer. Répondez STOP pour vous désinscrire.",
+      "J'accepte de recevoir par SMS les actualités, mises à jour et offres liées à Miraculous Ladybug & Cat Noir : The Live Stage Spectacular. En fournissant ton numéro, tu acceptes de recevoir des SMS concernant le spectacle. Des frais de message et de données peuvent s'appliquer. Réponds STOP pour te désinscrire.",
     'form.age': "Je confirme avoir 16 ans ou plus.",
     'form.smsNote': '',
     'form.submit': 'Rejoindre la liste d’attente',
     'form.submitting': 'Un instant…',
     'form.legalPre':
-      'En vous inscrivant, vous acceptez que vos données soient utilisées pour vous envoyer les communications choisies. Vous pouvez vous désinscrire à tout moment. Pour en savoir plus, consultez notre',
+      'En t’inscrivant, tu acceptes que tes données soient utilisées pour t’envoyer les communications choisies. Tu peux te désinscrire à tout moment. Pour en savoir plus, consulte notre',
     'form.legalLink': 'politique de confidentialité',
     'form.errEmail': 'Merci de saisir une adresse e-mail valide.',
-    'form.errCity': 'Merci d’indiquer votre ville.',
+    'form.errCity': 'Merci d’indiquer ta ville.',
     'form.errPhone': 'Merci d’indiquer un numéro de téléphone valide.',
-    'form.errAge': 'Vous devez confirmer avoir 16 ans ou plus.',
-    'form.errGeneric': "L'inscription a échoué. Réessayez.",
+    'form.errAge': 'Tu dois confirmer avoir 16 ans ou plus.',
+    'form.errGeneric': "L'inscription a échoué. Réessaie.",
     'form.doneTitle': 'Bienvenue sur la liste d’attente officielle !',
     'form.doneText':
-      'Vous y êtes ! Gardez un œil sur votre boîte mail pour les annonces de billets, les mises à jour spéciales et les nouveautés, à mesure que Miraculous Live se prépare à venir dans votre ville.',
+      'Tu y es ! Garde un œil sur ta boîte mail pour les annonces de billets, les mises à jour spéciales et les nouveautés, à mesure que Miraculous Live se prépare à venir dans ta ville.',
 
     'footer.legal': 'Mentions légales',
     'footer.privacy': 'Politique de confidentialité',
