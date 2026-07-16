@@ -622,6 +622,12 @@ function copyTune() {
   .signup-section__inner {
     gap: 1.75rem;
   }
+  /* Scale the title down on narrow phones so the long forced line
+     ("Miraculous Ladybug & Cat Noir" in FR) always fits without re-wrapping.
+     Capped at 1.25rem for phones ~435px and wider. */
+  .signup-section__title {
+    font-size: min(1.2rem, 4.1vw);
+  }
   /* Footer logos drop below the credits, centred */
   .footer__logos {
     position: static;

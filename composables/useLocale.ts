@@ -12,11 +12,11 @@ const messages: Record<Locale, Dict> = {
     'hero.logoAlt': 'Miraculous : Ladybug & Cat Noir — Le Spectacle Live',
     'hero.scrollAria': "Aller à l'inscription",
 
-    'signup.introTitleA': 'Aide-nous à ramener Miraculous',
-    'signup.introTitleB': 'Ladybug & Cat Noir',
+    'signup.introTitleA': 'Aide-nous à ramener',
+    'signup.introTitleB': 'Miraculous Ladybug & Cat Noir',
     'signup.introTitleC': 'dans votre ville',
     'signup.introText':
-      'Envie de voir Miraculous Ladybug & Cat Noir : The Live Stage Spectacular dans votre ville ? Rejoignez la liste d’attente officielle pour manifester votre intérêt. Chaque inscription nous aide à identifier où les fans veulent voir le spectacle. Vous serez aussi parmi les premiers informés des dates de tournée, des ventes de billets et des annonces spéciales.',
+      'Envie de voir Miraculous Ladybug & Cat Noir : The Live Stage Spectacular dans votre ville ? Rejoignez la liste d’attente officielle pour manifester votre intérêt et être parmi les premiers informés des ventes de billets et des annonces spéciales.',
     'signup.microcopy':
       'Chaque inscription nous aide à amener le spectacle dans davantage de villes à travers le monde.',
 
@@ -49,9 +49,9 @@ const messages: Record<Locale, Dict> = {
     'form.errPhone': 'Merci d’indiquer un numéro de téléphone valide.',
     'form.errAge': 'Vous devez confirmer avoir 16 ans ou plus.',
     'form.errGeneric': "L'inscription a échoué. Réessayez.",
-    'form.doneTitle': 'Merci !',
+    'form.doneTitle': 'Bienvenue sur la liste d’attente officielle !',
     'form.doneText':
-      'Votre inscription est confirmée. Gardez un œil sur votre boîte mail — le rideau se lève bientôt.',
+      'Vous y êtes ! Gardez un œil sur votre boîte mail pour les annonces de billets, les mises à jour spéciales et les nouveautés, à mesure que Miraculous Live se prépare à venir dans votre ville.',
 
     'footer.legal': 'Mentions légales',
     'footer.privacy': 'Politique de confidentialité',
@@ -71,7 +71,7 @@ const messages: Record<Locale, Dict> = {
     'signup.introTitleB': 'Ladybug & Cat Noir',
     'signup.introTitleC': 'to your city',
     'signup.introText':
-      'Want to see Miraculous Ladybug & Cat Noir: The Live Stage Spectacular in your city? Join the official waitlist to show your interest. Every registration helps us identify where fans want to see the show next. You’ll also be among the first to hear about tour dates, ticket sales and special announcements.',
+      'Want to see Miraculous Ladybug & Cat Noir: The Live Stage Spectacular in your city? Join the official waitlist to show your interest and be among the first to hear about ticket sales and special announcements.',
     'signup.microcopy':
       'Every registration helps us bring the show to more cities around the world.',
 
@@ -104,9 +104,9 @@ const messages: Record<Locale, Dict> = {
     'form.errPhone': 'Please enter a valid phone number.',
     'form.errAge': 'You must confirm you are 16 or older.',
     'form.errGeneric': 'Sign-up failed. Please try again.',
-    'form.doneTitle': 'Thank you!',
+    'form.doneTitle': 'Welcome to the official waitlist!',
     'form.doneText':
-      "Your sign-up is confirmed. Keep an eye on your inbox — the curtain rises soon.",
+      'You’re in! Keep an eye on your inbox for ticket announcements, special updates and exciting news as Miraculous Live gets ready to come to your city.',
 
     'footer.legal': 'Legal notice',
     'footer.privacy': 'Privacy policy',
