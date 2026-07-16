@@ -454,7 +454,9 @@ function copyTune() {
   align-items: center;
 }
 .signup-section__title {
-  font-size: clamp(1.25rem, 2.2vw, 2.1rem);
+  /* Sized so the longest forced line ("MIRACULOUS LADYBUG & CAT NOIR" in FR)
+     fits on one line inside the narrower 2-column desktop title column. */
+  font-size: clamp(1.2rem, 1.95vw, 1.85rem);
   line-height: 1.1;
   color: var(--red);
   text-transform: uppercase;
